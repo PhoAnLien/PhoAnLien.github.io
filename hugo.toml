@@ -1,4 +1,7 @@
-baseURL = 'https://PhoAnLien.github.io/' # Thay [username] bằng tên GitHub của bạn
-languageCode = 'vi-VN'
-title = 'Đồ án Lập trình mạng'
+baseURL = 'https://PhoAnLien.github.io/' 
+title = 'Blog của Thành'
 theme = 'ananke'
+
+[params]
+  description = "Chia sẻ kiến thức Java Network & JavaScript"
+  featured_image = "/images/cover.jpg"
