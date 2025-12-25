@@ -1,21 +1,202 @@
-<!doctype html><html lang=vi-VN><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>5. Input/Output Stream và Serialization trong Java | Blog của Thành</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=generator content="Hugo 0.153.2"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=stylesheet href=/css/custom.css><link rel=stylesheet href="/css/custom.css?v=1766670620534993400"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin=anonymous referrerpolicy=no-referrer></head><body class="ma0 avenir bg-near-white"><header class="cover bg-center" style=background-image:url(https://source.unsplash.com/random/800x600/?data,stream)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">Blog của Thành</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/ title="Trang chủ page">Trang chủ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="Danh sách bài viết page">Danh sách bài viết</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/about/ title="Giới thiệu & Profile page">Giới thiệu & Profile</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">5. Input/Output Stream và Serialization trong Java</div></div></div></header><main class=pb7 role=main><article class="flex-l mw7 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">5. Input/Output Stream và Serialization trong Java</h1><time class="f6 mv4 dib tracked" datetime=2024-12-24T00:00:00Z>December 24, 2024</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>Trong Lập trình mạng, việc &ldquo;gửi tin nhắn&rdquo; thực chất là ghi dữ liệu vào một đường ống (Output Stream) và đọc dữ liệu từ đường ống đó (Input Stream). Java chia I/O thành hai họ lớn.</p><h2 id=1-phân-loại-streams>1. Phân loại Streams</h2><h3 id=byte-streams-luồng-byte>Byte Streams (Luồng Byte)</h3><ul><li><strong>Class gốc</strong>: <code>InputStream</code>, <code>OutputStream</code></li><li><strong>Công dụng</strong>: Đọc/Ghi dữ liệu nhị phân thô (Raw binary) như hình ảnh, video, file nhạc, file .exe.</li><li><strong>Ví dụ</strong>: <code>FileInputStream</code>, <code>FileOutputStream</code>, <code>Socket.getOutputStream()</code>.</li></ul><h3 id=character-streams-luồng-ký-tự>Character Streams (Luồng Ký tự)</h3><ul><li><strong>Class gốc</strong>: <code>Reader</code>, <code>Writer</code></li><li><strong>Công dụng</strong>: Đọc/Ghi văn bản (Text). Nó tự động xử lý các bảng mã (Encoding) như UTF-8, giúp tránh lỗi font chữ.</li><li><strong>Ví dụ</strong>: <code>FileReader</code>, <code>FileWriter</code>.</li></ul><blockquote><p><strong>Mẹo</strong>: Nếu bạn làm việc với Socket TCP (văn bản), hãy bọc (wrap) Byte Stream trong Character Stream (InputStreamReader) để dễ xử lý.</p></blockquote><h2 id=2-java-serialization-tuần-tự-hóa>2. Java Serialization (Tuần tự hóa)</h2><p>Giả sử bạn có một đối tượng <code>User</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>User</span> {
-</span></span><span style=display:flex><span>    String name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Thanh&#34;</span>;
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>int</span> age <span style=color:#f92672>=</span> 21;
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>Làm sao gửi cả cục Object này qua mạng cho Server? Bạn không thể gửi từng biến lẻ tẻ vì rất cực. <strong>Serialization</strong> là quá trình biến object thành một dòng byte để gửi đi.</p><h3 id=cách-thực-hiện>Cách thực hiện</h3><ol><li>Class phải implement giao diện <code>Serializable</code> (như một con tem chứng nhận).</li><li>Sử dụng <code>ObjectOutputStream</code> để ghi và <code>ObjectInputStream</code> để đọc.</li></ol><p><strong>Gửi Object (Client):</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#75715e>// Yêu cầu: Class User implements Serializable</span>
-</span></span><span style=display:flex><span>User user <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> User(<span style=color:#e6db74>&#34;Nguyen Van A&#34;</span>, 25);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>OutputStream os <span style=color:#f92672>=</span> socket.<span style=color:#a6e22e>getOutputStream</span>();
-</span></span><span style=display:flex><span>ObjectOutputStream out <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ObjectOutputStream(os);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>out.<span style=color:#a6e22e>writeObject</span>(user); <span style=color:#75715e>// Gửi cả object đi</span>
-</span></span></code></pre></div><p><strong>Nhận Object (Server):</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span>InputStream is <span style=color:#f92672>=</span> socket.<span style=color:#a6e22e>getInputStream</span>();
-</span></span><span style=display:flex><span>ObjectInputStream in <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> ObjectInputStream(is);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>try</span> {
-</span></span><span style=display:flex><span>    User receivedUser <span style=color:#f92672>=</span> (User) in.<span style=color:#a6e22e>readObject</span>();
-</span></span><span style=display:flex><span>    System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;Tên: &#34;</span> <span style=color:#f92672>+</span> receivedUser.<span style=color:#a6e22e>name</span>);
-</span></span><span style=display:flex><span>} <span style=color:#66d9ef>catch</span> (ClassNotFoundException e) {
-</span></span><span style=display:flex><span>    e.<span style=color:#a6e22e>printStackTrace</span>();
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=lưu-ý-bảo-mật>Lưu ý bảo mật</h3><p>Deserialization (giải nén object) là một lỗ hổng bảo mật tiềm tàng nếu bạn nhận dữ liệu từ nguồn không tin cậy, hacker có thể chèn mã độc vào object. Hãy cẩn thận!</p><ul class=pa0><li class="list di"><a href=/tags/java/ class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a></li><li class="list di"><a href=/tags/io/ class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">IO</a></li></ul><div class="mt6 instapaper_ignoref"></div></div></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://PhoAnLien.github.io/>&copy; © 2025 Bản quyền thuộc về Thành Phạm 2025</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi-VN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>5. Input/Output Stream và Serialization trong Java | Blog của Thành</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <meta name="generator" content="Hugo 0.153.2">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+  
+    <link rel="stylesheet" href="/css/custom.css">
+  
+
+
+
+  
+  <link rel="stylesheet" href="/css/custom.css?v=1766671547483263100">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head><body class="ma0 avenir bg-near-white">
+  
+
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?data,stream');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        Blog của Thành
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/" title="Trang chủ page">
+              Trang chủ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="Danh sách bài viết page">
+              Danh sách bài viết
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/about/" title="Giới thiệu &amp; Profile page">
+              Giới thiệu &amp; Profile
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">5. Input/Output Stream và Serialization trong Java</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+
+  <main class="pb7" role="main">
+    
+
+
+
+<article class="flex-l mw8 center ph3 flex-wrap justify-between animate-fade-in-up mt4">
+    <header class="w-100 mb5">
+        <div class="flex items-center mb3">
+            <img src="/images/avatar.jpg" class="br-100 h3 w3 dib ba b--black-10 pa1 shadow-soft mr3"
+                style="object-fit: cover;">
+            <div>
+                <div class="f6 ttu tracked text-primary b">posts</div>
+                
+                <time class="f7 gray">24/12/2024</time>
+                
+            </div>
+        </div>
+
+        <h1 class="f1 athelas mt0 mb3 dark-blue">5. Input/Output Stream và Serialization trong Java</h1><div id="sharing" class="mt3 ananke-socials"></div>
+</header>
+
+    <div class="nested-copy-line-height lh-copy f4 nested-links mid-gray w-100 w-70-l pr4-l">
+        <div class="post-content"><p>Trong Lập trình mạng, việc &ldquo;gửi tin nhắn&rdquo; thực chất là ghi dữ liệu vào một đường ống (Output Stream) và đọc dữ liệu từ đường ống đó (Input Stream). Java chia I/O thành hai họ lớn.</p>
+<h2 id="1-phân-loại-streams">1. Phân loại Streams</h2>
+<h3 id="byte-streams-luồng-byte">Byte Streams (Luồng Byte)</h3>
+<ul>
+<li><strong>Class gốc</strong>: <code>InputStream</code>, <code>OutputStream</code></li>
+<li><strong>Công dụng</strong>: Đọc/Ghi dữ liệu nhị phân thô (Raw binary) như hình ảnh, video, file nhạc, file .exe.</li>
+<li><strong>Ví dụ</strong>: <code>FileInputStream</code>, <code>FileOutputStream</code>, <code>Socket.getOutputStream()</code>.</li>
+</ul>
+<h3 id="character-streams-luồng-ký-tự">Character Streams (Luồng Ký tự)</h3>
+<ul>
+<li><strong>Class gốc</strong>: <code>Reader</code>, <code>Writer</code></li>
+<li><strong>Công dụng</strong>: Đọc/Ghi văn bản (Text). Nó tự động xử lý các bảng mã (Encoding) như UTF-8, giúp tránh lỗi font chữ.</li>
+<li><strong>Ví dụ</strong>: <code>FileReader</code>, <code>FileWriter</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Mẹo</strong>: Nếu bạn làm việc với Socket TCP (văn bản), hãy bọc (wrap) Byte Stream trong Character Stream (InputStreamReader) để dễ xử lý.</p>
+</blockquote>
+<h2 id="2-java-serialization-tuần-tự-hóa">2. Java Serialization (Tuần tự hóa)</h2>
+<p>Giả sử bạn có một đối tượng <code>User</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    String name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Thanh&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> age <span style="color:#f92672">=</span> 21;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Làm sao gửi cả cục Object này qua mạng cho Server? Bạn không thể gửi từng biến lẻ tẻ vì rất cực. <strong>Serialization</strong> là quá trình biến object thành một dòng byte để gửi đi.</p>
+<h3 id="cách-thực-hiện">Cách thực hiện</h3>
+<ol>
+<li>Class phải implement giao diện <code>Serializable</code> (như một con tem chứng nhận).</li>
+<li>Sử dụng <code>ObjectOutputStream</code> để ghi và <code>ObjectInputStream</code> để đọc.</li>
+</ol>
+<p><strong>Gửi Object (Client):</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Yêu cầu: Class User implements Serializable</span>
+</span></span><span style="display:flex;"><span>User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User(<span style="color:#e6db74">&#34;Nguyen Van A&#34;</span>, 25);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>OutputStream os <span style="color:#f92672">=</span> socket.<span style="color:#a6e22e">getOutputStream</span>();
+</span></span><span style="display:flex;"><span>ObjectOutputStream out <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectOutputStream(os);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>out.<span style="color:#a6e22e">writeObject</span>(user); <span style="color:#75715e">// Gửi cả object đi</span>
+</span></span></code></pre></div><p><strong>Nhận Object (Server):</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>InputStream is <span style="color:#f92672">=</span> socket.<span style="color:#a6e22e">getInputStream</span>();
+</span></span><span style="display:flex;"><span>ObjectInputStream in <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectInputStream(is);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    User receivedUser <span style="color:#f92672">=</span> (User) in.<span style="color:#a6e22e">readObject</span>();
+</span></span><span style="display:flex;"><span>    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Tên: &#34;</span> <span style="color:#f92672">+</span> receivedUser.<span style="color:#a6e22e">name</span>);
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> (ClassNotFoundException e) {
+</span></span><span style="display:flex;"><span>    e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="lưu-ý-bảo-mật">Lưu ý bảo mật</h3>
+<p>Deserialization (giải nén object) là một lỗ hổng bảo mật tiềm tàng nếu bạn nhận dữ liệu từ nguồn không tin cậy, hacker có thể chèn mã độc vào object. Hãy cẩn thận!</p>
+</div><ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/java/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/io/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">IO</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+            
+        </div>
+    </div>
+
+    
+    <aside class="w-100 w-30-l mt4 mt0-l">
+
+        <div class="mt4 tc">
+            <a href="/posts/" class="f7 link gray hover-blue b ttu tracked">&larr; Quay lại danh sách</a>
+        </div>
+    </aside>
+</article>
+
+  </main>
+
+  <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  © 2025 Bản quyền thuộc về Thành Phạm 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  
+
+</body>
+
+</html>

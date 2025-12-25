@@ -1,1 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Java on Blog của Thành</title><link>https://PhoAnLien.github.io/categories/java/</link><description>Recent content in Java on Blog của Thành</description><generator>Hugo</generator><language>vi-VN</language><copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright><lastBuildDate>Tue, 24 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://PhoAnLien.github.io/categories/java/index.xml" rel="self" type="application/rss+xml"/><item><title>5. Input/Output Stream và Serialization trong Java</title><link>https://PhoAnLien.github.io/posts/post-5/</link><pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-5/</guid><description>Phân biệt Byte Stream và Character Stream. Hướng dẫn kỹ thuật Serialization để gửi cả một Object Java qua mạng.</description></item><item><title>4. Multithreading: Xử lý đa luồng cho Server</title><link>https://PhoAnLien.github.io/posts/post-4/</link><pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-4/</guid><description>Tại sao Server đơn luồng lại chậm? Giải pháp sử dụng Thread và Thread Pool để xây dựng Server phục vụ hàng ngàn Client cùng lúc.</description></item><item><title>3. Ứng dụng Chat thời gian thực với UDP</title><link>https://PhoAnLien.github.io/posts/post-3/</link><pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-3/</guid><description>Tìm hiểu sự khác biệt giữa TCP và UDP. Hướng dẫn sử dụng DatagramSocket để xây dựng ứng dụng gửi tin nhắn tốc độ cao.</description></item><item><title>2. Tìm hiểu sâu về Socket TCP trong Java</title><link>https://PhoAnLien.github.io/posts/post-2/</link><pubDate>Sat, 21 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-2/</guid><description>Hướng dẫn chi tiết về giao thức TCP: Cơ chế bắt tay 3 bước và xây dựng ứng dụng Echo Server hoàn chỉnh bằng Java Socket.</description></item><item><title>1. Tổng quan về Lập trình mạng trong Java</title><link>https://PhoAnLien.github.io/posts/post-1/</link><pubDate>Fri, 20 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-1/</guid><description>Khám phá nền tảng của lập trình mạng với Java: Hiểu về IP, Protocol, Port, Socket và cách xây dựng ứng dụng Client-Server đầu tiên.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Blog của Thành</title>
+    <link>http://localhost:1313/categories/java/</link>
+    <description>Recent content in Java on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Tue, 24 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>5. Input/Output Stream và Serialization trong Java</title>
+      <link>http://localhost:1313/posts/post-5/</link>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-5/</guid>
+      <description>Phân biệt Byte Stream và Character Stream. Hướng dẫn kỹ thuật Serialization để gửi cả một Object Java qua mạng.</description>
+    </item>
+    <item>
+      <title>4. Multithreading: Xử lý đa luồng cho Server</title>
+      <link>http://localhost:1313/posts/post-4/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-4/</guid>
+      <description>Tại sao Server đơn luồng lại chậm? Giải pháp sử dụng Thread và Thread Pool để xây dựng Server phục vụ hàng ngàn Client cùng lúc.</description>
+    </item>
+    <item>
+      <title>3. Ứng dụng Chat thời gian thực với UDP</title>
+      <link>http://localhost:1313/posts/post-3/</link>
+      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-3/</guid>
+      <description>Tìm hiểu sự khác biệt giữa TCP và UDP. Hướng dẫn sử dụng DatagramSocket để xây dựng ứng dụng gửi tin nhắn tốc độ cao.</description>
+    </item>
+    <item>
+      <title>2. Tìm hiểu sâu về Socket TCP trong Java</title>
+      <link>http://localhost:1313/posts/post-2/</link>
+      <pubDate>Sat, 21 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-2/</guid>
+      <description>Hướng dẫn chi tiết về giao thức TCP: Cơ chế bắt tay 3 bước và xây dựng ứng dụng Echo Server hoàn chỉnh bằng Java Socket.</description>
+    </item>
+    <item>
+      <title>1. Tổng quan về Lập trình mạng trong Java</title>
+      <link>http://localhost:1313/posts/post-1/</link>
+      <pubDate>Fri, 20 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-1/</guid>
+      <description>Khám phá nền tảng của lập trình mạng với Java: Hiểu về IP, Protocol, Port, Socket và cách xây dựng ứng dụng Client-Server đầu tiên.</description>
+    </item>
+  </channel>
+</rss>

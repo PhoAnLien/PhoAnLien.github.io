@@ -38,7 +38,9 @@ skills:
         style: "bg-light-gray dark-gray"
 ---
 
-Xin chào! Mình là một sinh viên ngành Công nghệ Thông tin, và đây là không gian mình chia sẻ hành trình khám phá thế giới rộng lớn của **Lập trình Mạng (Network Programming)**.
+Xin chào! Mình là Phạm Công Thành, mssv: 2280602955
+
+Một sinh viên ngành Công nghệ Thông tin, và đây là không gian mình chia sẻ hành trình khám phá thế giới rộng lớn của **Lập trình Mạng (Network Programming)**.
 
 Blog này được xây dựng như một phần của đồ án môn học, nhưng tầm nhìn của nó đi xa hơn thế. Tại đây, mình hệ thống hóa các kiến thức từ nền tảng giao thức (TCP, UDP, HTTP) đến việc xây dựng các ứng dụng thực tế. Mình tin rằng việc hiểu sâu về cách dữ liệu di chuyển là chìa khóa để trở thành một kỹ sư phần mềm giỏi.
 

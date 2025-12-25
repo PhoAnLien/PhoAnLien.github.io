@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Multithreading on Blog của Thành</title><link>https://PhoAnLien.github.io/categories/multithreading/</link><description>Recent content in Multithreading on Blog của Thành</description><generator>Hugo</generator><language>vi-VN</language><copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright><lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://PhoAnLien.github.io/categories/multithreading/index.xml" rel="self" type="application/rss+xml"/><item><title>4. Multithreading: Xử lý đa luồng cho Server</title><link>https://PhoAnLien.github.io/posts/post-4/</link><pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-4/</guid><description>Tại sao Server đơn luồng lại chậm? Giải pháp sử dụng Thread và Thread Pool để xây dựng Server phục vụ hàng ngàn Client cùng lúc.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Multithreading on Blog của Thành</title>
+    <link>http://localhost:1313/categories/multithreading/</link>
+    <description>Recent content in Multithreading on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/multithreading/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4. Multithreading: Xử lý đa luồng cho Server</title>
+      <link>http://localhost:1313/posts/post-4/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-4/</guid>
+      <description>Tại sao Server đơn luồng lại chậm? Giải pháp sử dụng Thread và Thread Pool để xây dựng Server phục vụ hàng ngàn Client cùng lúc.</description>
+    </item>
+  </channel>
+</rss>

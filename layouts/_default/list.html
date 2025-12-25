@@ -1,10 +1,15 @@
 {{ define "main" }}
 <article class="pa3 pa4-ns bg-near-white min-vh-100">
     {{/* Title Section */}}
+    {{ $about := .Site.GetPage "about" }}
+    {{ $avatar := $about.Params.avatar | default "/images/avatar.jpg" }}
     <header class="mw9 center ph3 pv4-ns pv3 tc">
+        <img src="{{ $avatar | relURL }}" class="br-100 h3 w3 dib ba b--black-10 pa1 shadow-soft mb3 animate-fade-in-up"
+            style="object-fit: cover;">
         <h1 class="f2 fw6 dark-blue mb2 animate-fade-in-up">Danh sách bài viết</h1>
-        <div class="h1 w3 bg-primary center br-pill"></div>
+        <div class="h1 w3 bg-primary center br-pill animate-fade-in-up"></div>
     </header>
+
 
     {{ if .Content }}
     <section class="mw8 center ph3 pv3 f4 gray lh-copy tc animate-fade-in-up delay-1">

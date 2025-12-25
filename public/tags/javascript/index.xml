@@ -1,1 +1,41 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>JavaScript on Blog của Thành</title><link>https://PhoAnLien.github.io/tags/javascript/</link><description>Recent content in JavaScript on Blog của Thành</description><generator>Hugo</generator><language>vi-VN</language><copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright><lastBuildDate>Sat, 28 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://PhoAnLien.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml"/><item><title>9. DOM Manipulation: Thao tác với giao diện Web</title><link>https://PhoAnLien.github.io/posts/post-9/</link><pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-9/</guid><description>JavaScript làm gì trên trình duyệt? Tìm hiểu về DOM Tree, cách truy xuất phần tử, thay đổi style và lắng nghe sự kiện người dùng.</description></item><item><title>8. Fetch API: Cách gọi API chuẩn trong JavaScript</title><link>https://PhoAnLien.github.io/posts/post-8/</link><pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-8/</guid><description>Thay thế XMLHttpRequest cũ kỹ bằng Fetch API hiện đại. Hướng dẫn gửi GET/POST Request và xử lý kết quả JSON.</description></item><item><title>7. Làm chủ Bất đồng bộ: Promise và Async/Await</title><link>https://PhoAnLien.github.io/posts/post-7/</link><pubDate>Thu, 26 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-7/</guid><description>Từ Callback Hell đến cú pháp Async/Await hiện đại. Cách xử lý các tác vụ tốn thời gian như gọi API mà không làm treo giao diện.</description></item><item><title>6. Phân biệt var, let và const trong JavaScript hiện đại</title><link>https://PhoAnLien.github.io/posts/post-6/</link><pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/posts/post-6/</guid><description>Tại sao nên từ bỏ var? Bảng so sánh chi tiết về Scope, Hoisting và khả năng Reassign của 3 từ khóa khai báo biến trong JS.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JavaScript on Blog của Thành</title>
+    <link>http://localhost:1313/tags/javascript/</link>
+    <description>Recent content in JavaScript on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Sat, 28 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>9. DOM Manipulation: Thao tác với giao diện Web</title>
+      <link>http://localhost:1313/posts/post-9/</link>
+      <pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-9/</guid>
+      <description>JavaScript làm gì trên trình duyệt? Tìm hiểu về DOM Tree, cách truy xuất phần tử, thay đổi style và lắng nghe sự kiện người dùng.</description>
+    </item>
+    <item>
+      <title>8. Fetch API: Cách gọi API chuẩn trong JavaScript</title>
+      <link>http://localhost:1313/posts/post-8/</link>
+      <pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-8/</guid>
+      <description>Thay thế XMLHttpRequest cũ kỹ bằng Fetch API hiện đại. Hướng dẫn gửi GET/POST Request và xử lý kết quả JSON.</description>
+    </item>
+    <item>
+      <title>7. Làm chủ Bất đồng bộ: Promise và Async/Await</title>
+      <link>http://localhost:1313/posts/post-7/</link>
+      <pubDate>Thu, 26 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-7/</guid>
+      <description>Từ Callback Hell đến cú pháp Async/Await hiện đại. Cách xử lý các tác vụ tốn thời gian như gọi API mà không làm treo giao diện.</description>
+    </item>
+    <item>
+      <title>6. Phân biệt var, let và const trong JavaScript hiện đại</title>
+      <link>http://localhost:1313/posts/post-6/</link>
+      <pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-6/</guid>
+      <description>Tại sao nên từ bỏ var? Bảng so sánh chi tiết về Scope, Hoisting và khả năng Reassign của 3 từ khóa khai báo biến trong JS.</description>
+    </item>
+  </channel>
+</rss>

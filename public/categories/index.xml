@@ -1,1 +1,90 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Categories on Blog của Thành</title><link>https://PhoAnLien.github.io/categories/</link><description>Recent content in Categories on Blog của Thành</description><generator>Hugo</generator><language>vi-VN</language><copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright><lastBuildDate>Sat, 28 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://PhoAnLien.github.io/categories/index.xml" rel="self" type="application/rss+xml"/><item><title>DOM</title><link>https://PhoAnLien.github.io/categories/dom/</link><pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/dom/</guid><description/></item><item><title>JavaScript</title><link>https://PhoAnLien.github.io/categories/javascript/</link><pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/javascript/</guid><description/></item><item><title>API</title><link>https://PhoAnLien.github.io/categories/api/</link><pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/api/</guid><description/></item><item><title>Async</title><link>https://PhoAnLien.github.io/categories/async/</link><pubDate>Thu, 26 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/async/</guid><description/></item><item><title>ES6</title><link>https://PhoAnLien.github.io/categories/es6/</link><pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/es6/</guid><description/></item><item><title>IO</title><link>https://PhoAnLien.github.io/categories/io/</link><pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/io/</guid><description/></item><item><title>Java</title><link>https://PhoAnLien.github.io/categories/java/</link><pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/java/</guid><description/></item><item><title>Multithreading</title><link>https://PhoAnLien.github.io/categories/multithreading/</link><pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/multithreading/</guid><description/></item><item><title>UDP</title><link>https://PhoAnLien.github.io/categories/udp/</link><pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/udp/</guid><description/></item><item><title>TCP</title><link>https://PhoAnLien.github.io/categories/tcp/</link><pubDate>Sat, 21 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/tcp/</guid><description/></item><item><title>Network</title><link>https://PhoAnLien.github.io/categories/network/</link><pubDate>Fri, 20 Dec 2024 00:00:00 +0000</pubDate><guid>https://PhoAnLien.github.io/categories/network/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Blog của Thành</title>
+    <link>http://localhost:1313/categories/</link>
+    <description>Recent content in Categories on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Sat, 28 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DOM</title>
+      <link>http://localhost:1313/categories/dom/</link>
+      <pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/dom/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>JavaScript</title>
+      <link>http://localhost:1313/categories/javascript/</link>
+      <pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/javascript/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>API</title>
+      <link>http://localhost:1313/categories/api/</link>
+      <pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/api/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Async</title>
+      <link>http://localhost:1313/categories/async/</link>
+      <pubDate>Thu, 26 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/async/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>ES6</title>
+      <link>http://localhost:1313/categories/es6/</link>
+      <pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/es6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>IO</title>
+      <link>http://localhost:1313/categories/io/</link>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/io/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Java</title>
+      <link>http://localhost:1313/categories/java/</link>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/java/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Multithreading</title>
+      <link>http://localhost:1313/categories/multithreading/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/multithreading/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>UDP</title>
+      <link>http://localhost:1313/categories/udp/</link>
+      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/udp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>TCP</title>
+      <link>http://localhost:1313/categories/tcp/</link>
+      <pubDate>Sat, 21 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/tcp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Network</title>
+      <link>http://localhost:1313/categories/network/</link>
+      <pubDate>Fri, 20 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/network/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

@@ -1,56 +1,273 @@
-<!doctype html><html lang=vi-VN><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>3. Ứng dụng Chat thời gian thực với UDP | Blog của Thành</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=generator content="Hugo 0.153.2"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css><link rel=stylesheet href=/ananke/css/main.min.efe4d852f731d5d1fbb87718387202a97aafd768cdcdaed0662bbe6982e91824.css><link rel=stylesheet href=/css/custom.css><link rel=stylesheet href="/css/custom.css?v=1766670620530894200"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin=anonymous referrerpolicy=no-referrer></head><body class="ma0 avenir bg-near-white"><header class="cover bg-center" style=background-image:url(https://source.unsplash.com/random/800x600/?speed,internet)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l center items-center justify-between"><a href=/ class="f3 fw2 hover-white white-90 dib no-underline">Blog của Thành</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/ title="Trang chủ page">Trang chủ</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/posts/ title="Danh sách bài viết page">Danh sách bài viết</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white white-90 no-underline" href=/about/ title="Giới thiệu & Profile page">Giới thiệu & Profile</a></li></ul><div class=ananke-socials></div></div></div></nav><div class="tc-l pv6 ph3 ph4-ns"><div class="f2 f1-l fw2 white-90 mb0 lh-title">3. Ứng dụng Chat thời gian thực với UDP</div></div></div></header><main class=pb7 role=main><article class="flex-l mw7 center ph3 flex-wrap justify-between"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked ttu">Posts</aside><div id=sharing class="mt3 ananke-socials"></div><h1 class="f1 athelas mt3 mb1">3. Ứng dụng Chat thời gian thực với UDP</h1><time class="f6 mv4 dib tracked" datetime=2024-12-22T00:00:00Z>December 22, 2024</time></header><div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>UDP (User Datagram Protocol) thường được ví như dịch vụ bưu phẩm thường: bạn gửi thư đi nhưng không chắc chắn 100% nó sẽ đến nơi hoặc đến đúng thứ tự. Tuy nhiên, UDP cực kỳ nhanh vì không cần thiết lập kết nối rườm rà (connectionless).</p><h2 id=1-khi-nào-dùng-udp>1. Khi nào dùng UDP?</h2><p>Khác với TCP đảm bảo tin cậy, UDP được chọn cho tốc độ:</p><ul><li><strong>Video Streaming / VoIP (Zoom, Skype)</strong>: Mất một vài frame hình ảnh không sao, nhưng độ trễ (latency) phải thấp để cuộc gọi mượt mà.</li><li><strong>Game Online (FPS/MOBA)</strong>: Cập nhật vị trí nhân vật cần tốc độ cao nhất (Real-time).</li><li><strong>Broadcast/Multicast</strong>: Gửi tin cho nhiều máy trong mạng LAN cùng lúc.</li></ul><h2 id=2-các-lớp-chính-trong-java-udp>2. Các lớp chính trong Java UDP</h2><p>Trong Java, chúng ta không dùng Stream (<code>InputStream</code>/<code>OutputStream</code>) mà dùng khái niệm gói tin (<code>Packet</code>).</p><table><thead><tr><th style=text-align:left>Lớp</th><th style=text-align:left>Chức năng</th></tr></thead><tbody><tr><td style=text-align:left><code>DatagramSocket</code></td><td style=text-align:left>&ldquo;Bưu điện&rdquo; - Nơi gửi và nhận các gói thư.</td></tr><tr><td style=text-align:left><code>DatagramPacket</code></td><td style=text-align:left>&ldquo;Gói bưu kiện&rdquo; - Chứa dữ liệu (byte array) và địa chỉ người nhận.</td></tr></tbody></table><h2 id=3-ví-dụ-ứng-dụng-gửi-tin-nhắn-đơn-giản>3. Ví dụ: Ứng dụng gửi tin nhắn đơn giản</h2><h3 id=sender-người-gửi>Sender (Người gửi)</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> java.net.*;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>UDPSender</span> {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span>(String<span style=color:#f92672>[]</span> args) <span style=color:#66d9ef>throws</span> Exception {
-</span></span><span style=display:flex><span>        DatagramSocket socket <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DatagramSocket();
-</span></span><span style=display:flex><span>        String message <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Hello UDP World!&#34;</span>;
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Chuyển chuỗi thành mảng byte</span>
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>byte</span><span style=color:#f92672>[]</span> buffer <span style=color:#f92672>=</span> message.<span style=color:#a6e22e>getBytes</span>();
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Xác định địa chỉ người nhận (localhost)</span>
-</span></span><span style=display:flex><span>        InetAddress receiverAddress <span style=color:#f92672>=</span> InetAddress.<span style=color:#a6e22e>getByName</span>(<span style=color:#e6db74>&#34;localhost&#34;</span>);
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>int</span> receiverPort <span style=color:#f92672>=</span> 9876;
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Đóng gói</span>
-</span></span><span style=display:flex><span>        DatagramPacket packet <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DatagramPacket(
-</span></span><span style=display:flex><span>            buffer, 
-</span></span><span style=display:flex><span>            buffer.<span style=color:#a6e22e>length</span>, 
-</span></span><span style=display:flex><span>            receiverAddress, 
-</span></span><span style=display:flex><span>            receiverPort
-</span></span><span style=display:flex><span>        );
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Gửi đi</span>
-</span></span><span style=display:flex><span>        socket.<span style=color:#a6e22e>send</span>(packet);
-</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;Đã gửi: &#34;</span> <span style=color:#f92672>+</span> message);
-</span></span><span style=display:flex><span>        socket.<span style=color:#a6e22e>close</span>();
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=receiver-người-nhận>Receiver (Người nhận)</h3><p>Người nhận phải mở cổng <code>9876</code> để lắng nghe.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=display:flex><span><span style=color:#f92672>import</span> java.net.*;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>UDPReceiver</span> {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span>(String<span style=color:#f92672>[]</span> args) <span style=color:#66d9ef>throws</span> Exception {
-</span></span><span style=display:flex><span>        <span style=color:#75715e>// Mở cổng 9876</span>
-</span></span><span style=display:flex><span>        DatagramSocket serverSocket <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DatagramSocket(9876);
-</span></span><span style=display:flex><span>        System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;Đang chờ tin nhắn UDP...&#34;</span>);
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>byte</span><span style=color:#f92672>[]</span> receiveBuffer <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#66d9ef>byte</span><span style=color:#f92672>[</span>1024<span style=color:#f92672>]</span>; <span style=color:#75715e>// Bộ đệm 1KB</span>
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=color:#66d9ef>while</span>(<span style=color:#66d9ef>true</span>) {
-</span></span><span style=display:flex><span>            <span style=color:#75715e>// Tạo gói rỗng để hứng dữ liệu</span>
-</span></span><span style=display:flex><span>            DatagramPacket receivePacket <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> DatagramPacket(receiveBuffer, receiveBuffer.<span style=color:#a6e22e>length</span>);
-</span></span><span style=display:flex><span>            
-</span></span><span style=display:flex><span>            <span style=color:#75715e>// Hàm này sẽ BLOCKED (chờ) cho đến khi có tin nhắn đến</span>
-</span></span><span style=display:flex><span>            serverSocket.<span style=color:#a6e22e>receive</span>(receivePacket); 
-</span></span><span style=display:flex><span>            
-</span></span><span style=display:flex><span>            String receivedData <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> String(
-</span></span><span style=display:flex><span>                receivePacket.<span style=color:#a6e22e>getData</span>(), 
-</span></span><span style=display:flex><span>                0, 
-</span></span><span style=display:flex><span>                receivePacket.<span style=color:#a6e22e>getLength</span>()
-</span></span><span style=display:flex><span>            );
-</span></span><span style=display:flex><span>            
-</span></span><span style=display:flex><span>            System.<span style=color:#a6e22e>out</span>.<span style=color:#a6e22e>println</span>(<span style=color:#e6db74>&#34;Nhận được: &#34;</span> <span style=color:#f92672>+</span> receivedData);
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=4-tóm-tắt-tcp-vs-udp>4. Tóm tắt TCP vs UDP</h2><table><thead><tr><th style=text-align:left>Tiêu chí</th><th style=text-align:left>TCP</th><th style=text-align:left>UDP</th></tr></thead><tbody><tr><td style=text-align:left><strong>Kết nối</strong></td><td style=text-align:left>Có kết nối (Connection-oriented)</td><td style=text-align:left>Không kết nối (Connectionless)</td></tr><tr><td style=text-align:left><strong>Độ tin cậy</strong></td><td style=text-align:left>Cao (Có ACK, gửi lại nếu mất)</td><td style=text-align:left>Thấp (Gửi và quên - Fire & Forget)</td></tr><tr><td style=text-align:left><strong>Tốc độ</strong></td><td style=text-align:left>Chậm hơn (do overhead nhiều)</td><td style=text-align:left>Nhanh hơn</td></tr><tr><td style=text-align:left><strong>Dữ liệu</strong></td><td style=text-align:left>Dạng dòng (Stream)</td><td style=text-align:left>Dạng gói (Datagram)</td></tr></tbody></table><p>Tùy vào mục đích sử dụng (cần tốc độ hay cần chính xác) mà ta chọn giao thức phù hợp.</p><ul class=pa0><li class="list di"><a href=/tags/java/ class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a></li><li class="list di"><a href=/tags/udp/ class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">UDP</a></li></ul><div class="mt6 instapaper_ignoref"></div></div></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href=https://PhoAnLien.github.io/>&copy; © 2025 Bản quyền thuộc về Thành Phạm 2025</a><div><div class=ananke-socials></div></div></div></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi-VN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>3. Ứng dụng Chat thời gian thực với UDP | Blog của Thành</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <meta name="generator" content="Hugo 0.153.2">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+  
+    <link rel="stylesheet" href="/css/custom.css">
+  
+
+
+
+  
+  <link rel="stylesheet" href="/css/custom.css?v=1766671547480755400">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head><body class="ma0 avenir bg-near-white">
+  
+
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?speed,internet');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        Blog của Thành
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/" title="Trang chủ page">
+              Trang chủ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="Danh sách bài viết page">
+              Danh sách bài viết
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/about/" title="Giới thiệu &amp; Profile page">
+              Giới thiệu &amp; Profile
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">3. Ứng dụng Chat thời gian thực với UDP</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+
+  <main class="pb7" role="main">
+    
+
+
+
+<article class="flex-l mw8 center ph3 flex-wrap justify-between animate-fade-in-up mt4">
+    <header class="w-100 mb5">
+        <div class="flex items-center mb3">
+            <img src="/images/avatar.jpg" class="br-100 h3 w3 dib ba b--black-10 pa1 shadow-soft mr3"
+                style="object-fit: cover;">
+            <div>
+                <div class="f6 ttu tracked text-primary b">posts</div>
+                
+                <time class="f7 gray">22/12/2024</time>
+                
+            </div>
+        </div>
+
+        <h1 class="f1 athelas mt0 mb3 dark-blue">3. Ứng dụng Chat thời gian thực với UDP</h1><div id="sharing" class="mt3 ananke-socials"></div>
+</header>
+
+    <div class="nested-copy-line-height lh-copy f4 nested-links mid-gray w-100 w-70-l pr4-l">
+        <div class="post-content"><p>UDP (User Datagram Protocol) thường được ví như dịch vụ bưu phẩm thường: bạn gửi thư đi nhưng không chắc chắn 100% nó sẽ đến nơi hoặc đến đúng thứ tự. Tuy nhiên, UDP cực kỳ nhanh vì không cần thiết lập kết nối rườm rà (connectionless).</p>
+<h2 id="1-khi-nào-dùng-udp">1. Khi nào dùng UDP?</h2>
+<p>Khác với TCP đảm bảo tin cậy, UDP được chọn cho tốc độ:</p>
+<ul>
+<li><strong>Video Streaming / VoIP (Zoom, Skype)</strong>: Mất một vài frame hình ảnh không sao, nhưng độ trễ (latency) phải thấp để cuộc gọi mượt mà.</li>
+<li><strong>Game Online (FPS/MOBA)</strong>: Cập nhật vị trí nhân vật cần tốc độ cao nhất (Real-time).</li>
+<li><strong>Broadcast/Multicast</strong>: Gửi tin cho nhiều máy trong mạng LAN cùng lúc.</li>
+</ul>
+<h2 id="2-các-lớp-chính-trong-java-udp">2. Các lớp chính trong Java UDP</h2>
+<p>Trong Java, chúng ta không dùng Stream (<code>InputStream</code>/<code>OutputStream</code>) mà dùng khái niệm gói tin (<code>Packet</code>).</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Lớp</th>
+          <th style="text-align: left">Chức năng</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>DatagramSocket</code></td>
+          <td style="text-align: left">&ldquo;Bưu điện&rdquo; - Nơi gửi và nhận các gói thư.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>DatagramPacket</code></td>
+          <td style="text-align: left">&ldquo;Gói bưu kiện&rdquo; - Chứa dữ liệu (byte array) và địa chỉ người nhận.</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="3-ví-dụ-ứng-dụng-gửi-tin-nhắn-đơn-giản">3. Ví dụ: Ứng dụng gửi tin nhắn đơn giản</h2>
+<h3 id="sender-người-gửi">Sender (Người gửi)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.*;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UDPSender</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        DatagramSocket socket <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DatagramSocket();
+</span></span><span style="display:flex;"><span>        String message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello UDP World!&#34;</span>;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Chuyển chuỗi thành mảng byte</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> message.<span style="color:#a6e22e">getBytes</span>();
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Xác định địa chỉ người nhận (localhost)</span>
+</span></span><span style="display:flex;"><span>        InetAddress receiverAddress <span style="color:#f92672">=</span> InetAddress.<span style="color:#a6e22e">getByName</span>(<span style="color:#e6db74">&#34;localhost&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> receiverPort <span style="color:#f92672">=</span> 9876;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Đóng gói</span>
+</span></span><span style="display:flex;"><span>        DatagramPacket packet <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DatagramPacket(
+</span></span><span style="display:flex;"><span>            buffer, 
+</span></span><span style="display:flex;"><span>            buffer.<span style="color:#a6e22e">length</span>, 
+</span></span><span style="display:flex;"><span>            receiverAddress, 
+</span></span><span style="display:flex;"><span>            receiverPort
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Gửi đi</span>
+</span></span><span style="display:flex;"><span>        socket.<span style="color:#a6e22e">send</span>(packet);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Đã gửi: &#34;</span> <span style="color:#f92672">+</span> message);
+</span></span><span style="display:flex;"><span>        socket.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="receiver-người-nhận">Receiver (Người nhận)</h3>
+<p>Người nhận phải mở cổng <code>9876</code> để lắng nghe.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.*;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UDPReceiver</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Mở cổng 9876</span>
+</span></span><span style="display:flex;"><span>        DatagramSocket serverSocket <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DatagramSocket(9876);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Đang chờ tin nhắn UDP...&#34;</span>);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> receiveBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>1024<span style="color:#f92672">]</span>; <span style="color:#75715e">// Bộ đệm 1KB</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Tạo gói rỗng để hứng dữ liệu</span>
+</span></span><span style="display:flex;"><span>            DatagramPacket receivePacket <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DatagramPacket(receiveBuffer, receiveBuffer.<span style="color:#a6e22e">length</span>);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Hàm này sẽ BLOCKED (chờ) cho đến khi có tin nhắn đến</span>
+</span></span><span style="display:flex;"><span>            serverSocket.<span style="color:#a6e22e">receive</span>(receivePacket); 
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            String receivedData <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String(
+</span></span><span style="display:flex;"><span>                receivePacket.<span style="color:#a6e22e">getData</span>(), 
+</span></span><span style="display:flex;"><span>                0, 
+</span></span><span style="display:flex;"><span>                receivePacket.<span style="color:#a6e22e">getLength</span>()
+</span></span><span style="display:flex;"><span>            );
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Nhận được: &#34;</span> <span style="color:#f92672">+</span> receivedData);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="4-tóm-tắt-tcp-vs-udp">4. Tóm tắt TCP vs UDP</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Tiêu chí</th>
+          <th style="text-align: left">TCP</th>
+          <th style="text-align: left">UDP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Kết nối</strong></td>
+          <td style="text-align: left">Có kết nối (Connection-oriented)</td>
+          <td style="text-align: left">Không kết nối (Connectionless)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Độ tin cậy</strong></td>
+          <td style="text-align: left">Cao (Có ACK, gửi lại nếu mất)</td>
+          <td style="text-align: left">Thấp (Gửi và quên - Fire &amp; Forget)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Tốc độ</strong></td>
+          <td style="text-align: left">Chậm hơn (do overhead nhiều)</td>
+          <td style="text-align: left">Nhanh hơn</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Dữ liệu</strong></td>
+          <td style="text-align: left">Dạng dòng (Stream)</td>
+          <td style="text-align: left">Dạng gói (Datagram)</td>
+      </tr>
+  </tbody>
+</table>
+<p>Tùy vào mục đích sử dụng (cần tốc độ hay cần chính xác) mà ta chọn giao thức phù hợp.</p>
+</div><ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/java/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/udp/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">UDP</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+            
+        </div>
+    </div>
+
+    
+    <aside class="w-100 w-30-l mt4 mt0-l">
+
+        <div class="mt4 tc">
+            <a href="/posts/" class="f7 link gray hover-blue b ttu tracked">&larr; Quay lại danh sách</a>
+        </div>
+    </aside>
+</article>
+
+  </main>
+
+  <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  © 2025 Bản quyền thuộc về Thành Phạm 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  
+
+</body>
+
+</html>

@@ -1,4 +1,7 @@
 {{ define "main" }}
+{{ $about := .Site.GetPage "about" }}
+{{ $avatar := $about.Params.avatar | default "images/avatar.jpg" }}
+
 <div class="pa3 pa4-ns w-100 mw9 center">
     <div class="tc pv4 pv5-ns">
         <!-- Animated Title with Gradient Text -->
@@ -12,11 +15,19 @@
                 class="fw6 text-primary">Socket</span> và <span class="fw6 text-primary">Modern Web</span>.
         </h2>
 
-        <!-- Description -->
-        <p class="f5 gray measure-wide center mb5 lh-copy animate-fade-in-up delay-2">
-            Nơi lưu trữ các bài viết chuyên sâu, code mẫu và kinh nghiệm thực chiến. Kết nối với mình qua các nền tảng
-            bên dưới.
-        </p>
+        <!-- AUTHOR QUICK INTRO SECTION (Integrated into Homepage) -->
+        <div class="mw7 center bg-white pa4 br4 shadow-soft mb5 animate-fade-in-up delay-2 hover-lift transition-all">
+            <div class="flex flex-column flex-row-ns items-center justify-center">
+                <img src="{{ $avatar | relURL }}" class="br-100 h4 w4 ba b--black-10 pa1 shadow-soft mb3 mb0-ns mr4-ns"
+                    style="object-fit: cover;">
+                <div class="tl-ns tc">
+                    <h3 class="f3 mb1 dark-blue fw7">{{ $about.Title }}</h3>
+                    <p class="f6 ttu tracked text-primary fw6 mb2">{{ $about.Params.subtitle }}</p>
+                    <p class="f6 gray lh-copy mb3">{{ $about.Summary | truncate 180 }}</p>
+                    <a href="/about/" class="f6 link text-primary b">Xem hồ sơ đầy đủ &rarr;</a>
+                </div>
+            </div>
+        </div>
 
         <!-- Professional Icon Buttons -->
         <div class="flex flex-wrap justify-center items-center gap-4 animate-fade-in-up delay-3">
@@ -26,7 +37,6 @@
             <a href="mailto:thanhpham.apr@gmail.com" class="btn-icon btn-email mh3" title="Email">
                 <i class="fas fa-envelope"></i>
             </a>
-
         </div>
     </div>
 </div>

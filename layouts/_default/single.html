@@ -1,0 +1,70 @@
+{{ define "header" }}
+{{ partial "page-header.html" . }}
+{{ end }}
+
+{{ define "main" }}
+{{ $about := .Site.GetPage "about" }}
+{{ $avatar := $about.Params.avatar | default "images/avatar.jpg" }}
+
+<article class="flex-l mw8 center ph3 flex-wrap justify-between animate-fade-in-up mt4">
+    <header class="w-100 mb5">
+        <div class="flex items-center mb3">
+            <img src="{{ $avatar | relURL }}" class="br-100 h3 w3 dib ba b--black-10 pa1 shadow-soft mr3"
+                style="object-fit: cover;">
+            <div>
+                <div class="f6 ttu tracked text-primary b">{{ .Section }}</div>
+                {{ if not .Date.IsZero }}
+                <time class="f7 gray">{{ .Date.Format "02/01/2006" }}</time>
+                {{ end }}
+            </div>
+        </div>
+
+        <h1 class="f1 athelas mt0 mb3 dark-blue">
+            {{- .Title -}}
+        </h1>
+
+        {{- partial "social/share.html" . -}}
+    </header>
+
+    <div class="nested-copy-line-height lh-copy f4 nested-links mid-gray w-100 w-70-l pr4-l">
+        <div class="post-content">
+            {{- .Content -}}
+        </div>
+
+        {{- partial "tags.html" . -}}
+
+        <div class="mt6 instapaper_ignoref">
+            {{ if .Site.Config.Services.Disqus.Shortname }}
+            {{ partial "disqus.html" . }}
+            {{ end }}
+        </div>
+    </div>
+
+    {{/* Right Sidebar - Re-focused */}}
+    <aside class="w-100 w-30-l mt4 mt0-l">
+        {{- $related := .RegularPages.Related . | first 5 -}}
+        {{ if $related }}
+        <div class="bg-white pa4 br4 shadow-soft">
+            <h4 class="f6 ttu tracked b text-primary mb3 pb2 bb b--black-10">
+                <i class="fas fa-bookmark mr2"></i>Bài viết liên quan
+            </h4>
+            <ul class="list pl0">
+                {{ range $related }}
+                <li class="mb4">
+                    <a href="{{ .RelPermalink }}" class="link dark-blue f6 hover-blue b db lh-title mb2">{{ .Title
+                        }}</a>
+                    {{ if not .Date.IsZero }}
+                    <time class="f7 silver">{{ .Date.Format "02/01/2006" }}</time>
+                    {{ end }}
+                </li>
+                {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+
+        <div class="mt4 tc">
+            <a href="/posts/" class="f7 link gray hover-blue b ttu tracked">&larr; Quay lại danh sách</a>
+        </div>
+    </aside>
+</article>
+{{ end }}

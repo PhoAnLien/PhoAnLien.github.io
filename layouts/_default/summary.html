@@ -9,7 +9,9 @@
             {{with .CurrentSection.Title }}
             <span class="f7 ttu tracked text-primary fw7 mr3">{{ . }}</span>
             {{end}}
+            {{ if not .Date.IsZero }}
             <span class="f7 gray fw5"><i class="far fa-calendar-alt mr1"></i> {{ .Date.Format "02/01/2006" }}</span>
+            {{ end }}
         </div>
 
         {{/* Title */}}
