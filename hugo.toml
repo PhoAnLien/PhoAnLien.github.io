@@ -1,7 +1,35 @@
-baseURL = 'https://PhoAnLien.github.io/' 
-title = 'Blog của Thành'
+baseURL = 'https://PhoAnLien.github.io/'
+languageCode = 'vi-VN'
+title = 'Blog Lập Trình Mạng'
 theme = 'ananke'
 
+# Cấu hình Footer
+copyright = "© 2025 Bản quyền thuộc về Thành Phạm"
+
+# Cấu hình tham số giao diện
 [params]
-  description = "Chia sẻ kiến thức Java Network & JavaScript"
-  featured_image = "/images/cover.jpg"
+  description = "Tổng hợp kiến thức về Java Network và JavaScript"
+  featured_image = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
+  
+  # Màu sắc chủ đạo (có thể đổi: blue, green, red, pink, purple)
+  body_classes = "avenir bg-near-white"
+
+# CẤU HÌNH HEADER (MENU)
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Trang chủ"
+    url = "/"
+    weight = 10
+  
+  [[menu.main]]
+    identifier = "posts"
+    name = "Danh sách bài viết"
+    url = "/posts/"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "about"
+    name = "Giới thiệu & Profile"
+    url = "/about/"
+    weight = 30
