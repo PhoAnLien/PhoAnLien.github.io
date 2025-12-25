@@ -1,23 +1,48 @@
 ---
-title: "Giới thiệu về tôi"
-date: 2025-12-25
-draft: false
+title: "Hồ sơ cá nhân"
 layout: "page"
-description: "Sinh viên IT"
+menu: "main"
+draft: false
 ---
 
-<div style="text-align: center; margin-bottom: 30px;">
-    <img src="/images/avatar.jpg" alt="Anh Dai Dien" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid #ddd;">
+<div class="pa3 pa4-ns bg-white shadow-1 br3">
+  <div class="tc">
+    <img src="/images/avatar.jpg" class="br-100 h4 w4 dib ba b--black-05 pa2" title="Ảnh đại diện của tôi">
+    
+    <h1 class="f3 mb2">[Tên Của Bạn]</h1>
+    <h2 class="f5 fw4 gray mt0">Sinh viên Công nghệ Thông tin</h2>
+  </div>
+
+  <div class="dt-ns dt--fixed-ns w-100 mt4">
+    <div class="dtc-ns v-mid pr4-ns">
+        <h3 class="f4 bb b--black-10 pb2">👋 Giới thiệu</h3>
+        <p class="lh-copy measure">
+            Xin chào! Mình là sinh viên lớp <b>[Tên Lớp]</b>, mã số sinh viên <b>[MSSV]</b>. 
+            Blog này là nơi mình hệ thống hóa lại kiến thức đồ án môn học về Lập trình mạng.
+        </p>
+        <p class="lh-copy measure">
+            Mình đam mê việc xây dựng các ứng dụng web hiệu năng cao và tìm hiểu sâu về cách dữ liệu di chuyển trên Internet.
+        </p>
+    </div>
+
+    <div class="dtc-ns v-mid pl4-ns mt4 mt0-ns">
+        <h3 class="f4 bb b--black-10 pb2">🛠 Kỹ năng chuyên môn</h3>
+        <ul class="list pl0 measure center">
+            <li class="lh-copy pv1 ba b--black-10 ph3 br2 mb2 bg-near-white">
+                <b>Java Network:</b> Socket TCP/UDP, Multithreading
+            </li>
+            <li class="lh-copy pv1 ba b--black-10 ph3 br2 mb2 bg-near-white">
+                <b>JavaScript:</b> ES6+, Fetch API, Async/Await
+            </li>
+            <li class="lh-copy pv1 ba b--black-10 ph3 br2 mb2 bg-near-white">
+                <b>Tools:</b> Git, GitHub Actions, Hugo, VS Code
+            </li>
+        </ul>
+    </div>
+  </div>
+
+  <div class="mt4 tc">
+    <a href="https://github.com/PhoAnLien" class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-dark-blue mr2">GitHub</a>
+    <a href="mailto:thanhpham.apr@gmail.com" class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-dark-red">Email</a>
+  </div>
 </div>
-
-## 👋 Xin chào! Mình là Thành Phạm
-
-Hiện là sinh viên lớp 22DTHE6 - Mã sinh viên: 2280602955.
-
-Blog này là sản phẩm đồ án kết thúc học phần, nơi mình tổng hợp lại các kiến thức cốt lõi về:
-* **Java Network Programming:** Xử lý Socket, đa luồng.
-* **JavaScript:** Xử lý bất đồng bộ, API.
-
-Mục tiêu của mình là trở thành tỷ phú. Cảm ơn bạn đã ghé thăm!
-
----

@@ -33,3 +33,7 @@ copyright = "© 2025 Bản quyền thuộc về Thành Phạm"
     name = "Giới thiệu & Profile"
     url = "/about/"
     weight = 30
+    [markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
