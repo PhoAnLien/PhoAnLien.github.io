@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi-VN">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>6. Phân biệt var, let và const trong JavaScript hiện đại | Blog của Thành</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <meta name="generator" content="Hugo 0.153.2">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+  
+    <link rel="stylesheet" href="/css/custom.css">
+  
+
+
+
+  
+  <link rel="stylesheet" href="/css/custom.css?v=1766670796762124800">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head><body class="ma0 avenir bg-near-white">
+  
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?javascript,code');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        Blog của Thành
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/" title="Trang chủ page">
+              Trang chủ
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/posts/" title="Danh sách bài viết page">
+              Danh sách bài viết
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white white-90 no-underline" href="/about/" title="Giới thiệu &amp; Profile page">
+              Giới thiệu &amp; Profile
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">6. Phân biệt var, let và const trong JavaScript hiện đại</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+
+  <main class="pb7" role="main">
+    
+  
+  <article class="flex-l mw7 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">6. Phân biệt var, let và const trong JavaScript hiện đại</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-12-25T00:00:00Z">December 25, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>Từ phiên bản ES6 (2015), JavaScript đã thay đổi hoàn toàn cách khai báo biến. Việc hiểu rõ <code>var</code>, <code>let</code>, <code>const</code> không chỉ giúp code sạch hơn mà còn tránh được hàng tá lỗi logic khó tìm (bugs).</p>
+<h2 id="bảng-so-sánh-nhanh">Bảng so sánh nhanh</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Đặc điểm</th>
+          <th style="text-align: left"><code>var</code></th>
+          <th style="text-align: left"><code>let</code></th>
+          <th style="text-align: left"><code>const</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Phạm vi (Scope)</strong></td>
+          <td style="text-align: left">Function Scope</td>
+          <td style="text-align: left">Block Scope <code>{}</code></td>
+          <td style="text-align: left">Block Scope <code>{}</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Hoisting</strong></td>
+          <td style="text-align: left">Có (khởi tạo <code>undefined</code>)</td>
+          <td style="text-align: left">Có (nhưng ở trong vùng chết - TDZ)</td>
+          <td style="text-align: left">Có (nhưng ở trong vùng chết - TDZ)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Gán lại (Reassign)</strong></td>
+          <td style="text-align: left">Có</td>
+          <td style="text-align: left">Có</td>
+          <td style="text-align: left">Không</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Khai báo lại (Redeclare)</strong></td>
+          <td style="text-align: left">Có</td>
+          <td style="text-align: left">Không</td>
+          <td style="text-align: left">Không</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="1-var---người-cũ-nên-tránh">1. Var - &ldquo;Người cũ&rdquo; (Nên tránh)</h2>
+<p><code>var</code> có phạm vi là <strong>Function Scope</strong>, nghĩa là nếu bạn khai báo nó trong một khối <code>if</code> hay vòng lặp <code>for</code>, nó <strong>VẪN</strong> truy cập được ở bên ngoài khối đó (miễn là trong cùng hàm).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">x</span>); <span style="color:#75715e">// 10 (Vẫn chạy được! -&gt; Dễ gây lỗi)
+</span></span></span></code></pre></div><p>Ngoài ra, <code>var</code> bị <strong>Hoisting</strong> kỳ lạ: bạn có thể dùng biến trước khi khai báo nó (giá trị là <code>undefined</code>), điều này làm code rất khó debug.</p>
+<h2 id="2-let---sự-thay-thế-hoàn-hảo">2. Let - &ldquo;Sự thay thế hoàn hảo&rdquo;</h2>
+<p><code>let</code> ra đời để sửa lỗi của <code>var</code>. Nó có phạm vi <strong>Block Scope</strong> (trong cặp ngoặc nhọn <code>{}</code>). Biến chỉ tồn tại và có ý nghĩa trong khối đó.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">y</span>); <span style="color:#75715e">// Error: y is not defined (Đúng logic!)
+</span></span></span></code></pre></div><h2 id="3-const---bất-biến-ưu-tiên-dùng">3. Const - &ldquo;Bất biến&rdquo; (Ưu tiên dùng)</h2>
+<p><code>const</code> giống <code>let</code> về scope, nhưng bạn bắt buộc phải gán giá trị ngay khi khai báo và <strong>không thể gán lại</strong> giá trị mới cho nó.</p>
+<h3 id="hiểu-lầm-thường-gặp-về-const">Hiểu lầm thường gặp về Const</h3>
+<p>Nhiều người nghĩ <code>const</code> tạo ra giá trị bất biến hoàn toàn. Sai! Nếu <code>const</code> là một Object hoặc Array, bạn <strong>VẪN</strong> có thể thay đổi nội dung bên trong nó.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Thanh&#34;</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hợp lệ: Thay đổi thuộc tính bên trong
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;John&#34;</span>; 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Lỗi: Gán lại cả object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// user = { name: &#34;Doe&#34; }; // TypeError: Assignment to constant variable.
+</span></span></span></code></pre></div><p><strong>Lời khuyên:</strong> Hãy dùng <code>const</code> mặc định cho mọi biến. Chỉ khi nào bạn biết chắc chắn biến đó cần thay đổi giá trị (như biến đếm <code>i</code> trong vòng lặp), hãy đổi sang dùng <code>let</code>. Đừng bao giờ dùng <code>var</code> nữa.</p>
+<ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/javascript/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">JavaScript</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/es6/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">ES6</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div></article>
+
+  </main>
+
+  <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  © 2025 Bản quyền thuộc về Thành Phạm 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  
+
+</body>
+
+</html>

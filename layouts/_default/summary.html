@@ -1,0 +1,38 @@
+<div class="w-100 h-100 relative card-modern bg-white flex flex-column post-card overflow-hidden"
+    data-date='{{ .Date.Format "2006-01-02" }}'>
+    {{/* Decorative Side Border */}}
+    <div class="absolute left-0 top-0 bottom-0 w1 bg-primary"></div>
+
+    <div class="pa4 flex flex-column flex-auto pl4-l">
+        {{/* Category & Date */}}
+        <div class="flex items-center mb2">
+            {{with .CurrentSection.Title }}
+            <span class="f7 ttu tracked text-primary fw7 mr3">{{ . }}</span>
+            {{end}}
+            <span class="f7 gray fw5"><i class="far fa-calendar-alt mr1"></i> {{ .Date.Format "02/01/2006" }}</span>
+        </div>
+
+        {{/* Title */}}
+        <h1 class="f3 mt0 mb3 lh-title">
+            <a href="{{ .RelPermalink }}" class="link dark-blue hover-blue dim fw7">
+                {{ .Title }}
+            </a>
+        </h1>
+
+        {{/* Summary */}}
+        <div class="f5 gray lh-copy mb4 flex-auto">
+            {{ .Summary | truncate 200 }}
+        </div>
+
+        {{/* Footer Area */}}
+        <div class="flex items-center justify-between mt-auto">
+            <a href="{{.RelPermalink}}"
+                class="btn-read-more f6 fw6 no-underline dib v-mid br-pill ph4 pv2 shadow-soft transition-all">
+                {{ lang.Translate "readMore" | default "Khám phá bài viết" }}
+            </a>
+            <div class="f7 silver hide-child">
+                <i class="fas fa-clock mr1"></i> {{ .ReadingTime }} phút đọc
+            </div>
+        </div>
+    </div>
+</div>

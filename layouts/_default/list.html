@@ -1,0 +1,170 @@
+{{ define "main" }}
+<article class="pa3 pa4-ns bg-near-white min-vh-100">
+    {{/* Title Section */}}
+    <header class="mw9 center ph3 pv4-ns pv3 tc">
+        <h1 class="f2 fw6 dark-blue mb2 animate-fade-in-up">Danh sách bài viết</h1>
+        <div class="h1 w3 bg-primary center br-pill"></div>
+    </header>
+
+    {{ if .Content }}
+    <section class="mw8 center ph3 pv3 f4 gray lh-copy tc animate-fade-in-up delay-1">
+        {{- .Content -}}
+    </section>
+    {{ end }}
+
+    {{/* ENHANCED FILTER & SORT BAR - More visible & responsive */}}
+    <section class="mw9 center mb4 ph3 animate-fade-in-up delay-2">
+        <div class="bg-white ph4 pv3 br4 shadow-soft flex flex-wrap items-center justify-between">
+
+            {{/* Left Side: Month Filter */}}
+            <div class="flex items-center mv2 mr4">
+                <div class="bg-blue-10 pa2 br-pill mr3">
+                    <i class="fas fa-calendar-alt text-primary"></i>
+                </div>
+                <div class="flex flex-column">
+                    <span class="f7 gray ttu tracked b mb1">Xem theo thời gian</span>
+                    <select id="monthFilter" class="f6 fw6 dark-blue bn bg-transparent pointer outline-0">
+                        <option value="all">Tất cả bài viết</option>
+                    </select>
+                </div>
+            </div>
+
+            {{/* Right Side: Sort Buttons - Highlighted */}}
+            <div class="flex items-center mv2">
+                <div class="bg-blue-10 pa2 br-pill mr3">
+                    <i class="fas fa-sort-amount-down text-primary"></i>
+                </div>
+                <div class="flex flex-column">
+                    <span class="f7 gray ttu tracked b mb1">Sắp xếp theo</span>
+                    <div class="flex bg-near-white br-pill pa1">
+                        <button id="sortDesc"
+                            class="f7 fw7 pv2 ph3 br-pill border-0 pointer transition-all active-sort">Mới nhất</button>
+                        <button id="sortAsc"
+                            class="f7 fw7 pv2 ph3 br-pill border-0 pointer transition-all inactive-sort">Cũ
+                            nhất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{/* POSTS GRID */}}
+    <section class="mw9 center ph3 animate-fade-in-up delay-3">
+        <div id="postsGrid" class="flex flex-wrap">
+            {{ range .Paginator.Pages }}
+            <div class="w-100 w-50-l ph3 mb4 post-container" data-date='{{ .Date.Format "2006-01-02" }}'
+                data-month='{{ .Date.Format "2006-01" }}'>
+                {{ .Render "summary" }}
+            </div>
+            {{ end }}
+        </div>
+
+        {{/* No results message */}}
+        <div id="noResults" class="dn tc pv5 mw6 center">
+            <i class="fas fa-search f1 mb3 light-silver"></i>
+            <p class="f4 gray">Không tìm thấy bài viết nào trong thời gian này.</p>
+            <button
+                onclick="document.getElementById('monthFilter').value='all'; document.getElementById('monthFilter').dispatchEvent(new Event('change'))"
+                class="btn-read-more br-pill ph4 pv2 mt3 pointer">Xem tất cả</button>
+        </div>
+    </section>
+
+    <div class="mt5 pb4">
+        {{ partial "pagination.html" . -}}
+    </div>
+</article>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const postsGrid = document.getElementById('postsGrid');
+        const noResults = document.getElementById('noResults');
+        const monthFilter = document.getElementById('monthFilter');
+        const sortDesc = document.getElementById('sortDesc');
+        const sortAsc = document.getElementById('sortAsc');
+        const postContainers = Array.from(document.querySelectorAll('.post-container'));
+
+        // 1. Month Filter Setup
+        const months = new Set();
+        postContainers.forEach(post => {
+            const m = post.getAttribute('data-month');
+            if (m) months.add(m);
+        });
+
+        Array.from(months).sort().reverse().forEach(month => {
+            const date = new Date(month + "-01");
+            const monthName = "Tháng " + (date.getMonth() + 1) + ", " + date.getFullYear();
+            const option = document.createElement('option');
+            option.value = month;
+            option.textContent = monthName;
+            monthFilter.appendChild(option);
+        });
+
+        // 2. Filter & Sort Logic
+        function updateDisplay() {
+            const selectedMonth = monthFilter.value;
+            let visibleCount = 0;
+
+            postContainers.forEach(post => {
+                const isMatch = selectedMonth === 'all' || post.getAttribute('data-month') === selectedMonth;
+                if (isMatch) {
+                    post.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+
+            noResults.style.display = (visibleCount === 0) ? 'block' : 'none';
+            postsGrid.style.display = (visibleCount === 0) ? 'none' : 'flex';
+        }
+
+        function sortPosts(ascending = false) {
+            const sorted = postContainers.sort((a, b) => {
+                const dateA = new Date(a.getAttribute('data-date'));
+                const dateB = new Date(b.getAttribute('data-date'));
+                return ascending ? dateA - dateB : dateB - dateA;
+            });
+
+            sorted.forEach(post => postsGrid.appendChild(post));
+
+            // UI States
+            if (ascending) {
+                sortAsc.className = 'f7 fw7 pv2 ph3 br-pill border-0 pointer transition-all active-sort';
+                sortDesc.className = 'f7 fw7 pv2 ph3 br-pill border-0 pointer transition-all inactive-sort';
+            } else {
+                sortDesc.className = 'f7 fw7 pv2 ph3 br-pill border-0 pointer transition-all active-sort';
+                sortAsc.className = 'f7 fw7 pv2 ph3 br-pill border-0 pointer transition-all inactive-sort';
+            }
+        }
+
+        // Listeners
+        monthFilter.addEventListener('change', updateDisplay);
+        sortAsc.addEventListener('click', () => sortPosts(true));
+        sortDesc.addEventListener('click', () => sortPosts(false));
+
+        // Initial set
+        sortPosts(false);
+    });
+</script>
+
+<style>
+    .bg-blue-10 {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .active-sort {
+        background-color: var(--primary-color) !important;
+        color: white !important;
+        box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+    }
+
+    .inactive-sort {
+        background-color: transparent !important;
+        color: #6b7280 !important;
+    }
+
+    .inactive-sort:hover {
+        color: var(--primary-color) !important;
+    }
+</style>
+{{ end }}

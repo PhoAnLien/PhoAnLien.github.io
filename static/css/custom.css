@@ -1,0 +1,271 @@
+/* Custom CSS for improved typography and UI */
+/* Removed Google Fonts import to fix fallback issues */
+
+:root {
+    --primary-color: #3b82f6;
+    --primary-dark: #1d4ed8;
+    --text-color: #374151;
+    --bg-color: #f9fafb;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+    /* Use System Fonts first to fix Vietnamese character spacing issues */
+    --font-main: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Typography Reset */
+* {
+    font-variant-ligatures: none;
+    font-feature-settings: normal;
+}
+
+body {
+    font-family: var(--font-main) !important;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    /* Fix Vietnamese Typography */
+    line-height: 1.6;
+    text-align: left !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+}
+
+/* Force Left Alignment specifically on text blocks and override Tachyons justify */
+p,
+li,
+article {
+    text-align: left !important;
+    text-justify: none !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+}
+
+/* Force override Tachyons justify class & tracking classes */
+.tj,
+.tj-ns,
+.tj-l,
+.tj-m,
+.tracked,
+.tracked-tight,
+.tracked-mega {
+    text-align: left !important;
+    text-justify: none !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+}
+
+/* Modern Gradient Text */
+.text-gradient {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.animate-fade-in-up {
+    animation-name: fadeInUp;
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+/* Refined Shadows */
+.shadow-soft {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Icon Buttons with Glass effect */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: white;
+    color: var(--text-color);
+    font-size: 1.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-icon:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-github:hover {
+    color: #333;
+}
+
+.btn-email:hover {
+    color: #ea4335;
+}
+
+.btn-facebook:hover {
+    color: #1877f2;
+}
+
+.btn-linkedin:hover {
+    color: #0077b5;
+}
+
+/* Modern Card with Border and Glow - Cleaner & Neater */
+.card-modern {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    border-color: var(--primary-color);
+}
+
+
+
+/* Subtle gradient overlay on image hover */
+.card-modern .aspect-ratio--object {
+    transition: transform 0.5s ease;
+}
+
+.card-modern:hover .aspect-ratio--object {
+    transform: scale(1.03);
+}
+
+/* Button Read More */
+.btn-read-more {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white !important;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-read-more:hover {
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Utilities */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-white-translucent {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+/* Header & Footer */
+header.bg-top {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+footer {
+    background: linear-gradient(to right, #1f2937, #111827) !important;
+    color: #f9fafb !important;
+    margin-top: 4rem;
+}
+
+/* Filter & Sort Bar Styling */
+select#monthFilter {
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    appearance: none;
+    transition: all 0.2s;
+}
+
+select#monthFilter:hover {
+    border-color: var(--primary-color);
+}
+
+button[id^="sort"] {
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+button[id^="sort"]:hover:not(.white) {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.active-btn {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* New Utilities for Filter Bar */
+.bg-blue-10 {
+    background-color: rgba(59, 130, 246, 0.08);
+}
+
+.shadow-soft {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.br4 {
+    border-radius: 1rem;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}

@@ -1,0 +1,67 @@
+{{ define "main" }}
+<div class="flex-l mt2 mw9 center justify-center animate-fade-in-up">
+    <article class="center cf pv4 ph3 ph4-ns w-100 mw8">
+        <div class="pa4 pa5-ns bg-white shadow-soft br3 mt3 mb5 hover-lift transition-all">
+            <!-- Profile Header -->
+            <div class="tc mb5">
+                <div class="dib relative">
+                    {{ $avatar := .Params.avatar | default "images/avatar.jpg" }}
+                    {{ $finalAvatar := $avatar | relURL }}
+                    {{ $author := .Params.author_name | default "Admin" }}
+                    <img src="{{ $finalAvatar }}" class="br-100 h4 w4 dib ba b--black-10 pa1 shadow-soft"
+                        title="{{ $author }}" style="object-fit: cover; width: 150px; height: 150px;">
+                </div>
+                <h1 class="f2 mb1 mt3 text-primary fw7">{{ .Title }}</h1>
+                <h2 class="f5 fw5 gray mt0 ttu tracked">{{ .Params.subtitle }}</h2>
+                <p class="f6 gray mt2">{{ .Params.details }}</p>
+            </div>
+
+            <div class="cf">
+                <!-- About Section -->
+                <div class="fl w-100 w-60-ns pr4-ns mb4 animate-fade-in-up delay-1">
+                    <h3 class="f4 bb b--black-10 pb2 text-primary"><i class="fas fa-user-circle mr2"></i>Giới thiệu</h3>
+                    <div class="lh-copy measure-wide f5 gray">
+                        {{ .Content }}
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="fl w-100 w-40-ns pl4-ns bl-ns b--black-10 animate-fade-in-up delay-2">
+                    <h3 class="f4 bb b--black-10 pb2 text-primary"><i class="fas fa-tools mr2"></i>Kỹ năng chuyên môn
+                    </h3>
+
+                    {{ range .Params.skills }}
+                    <div class="mb3">
+                        <h4 class="f6 ttu tracked gray mb2 fw6">{{ .category }}</h4>
+                        <div class="flex flex-wrap">
+                            {{ range .items }}
+                            {{ $style := .style | default "bg-light-blue dark-blue" }}
+                            <span class="{{ $style }} ph3 pv1 br-pill f6 mr2 mb2 fw6 shadow-1">{{ .name }}</span>
+                            {{ end }}
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="mt5 tc bt b--black-10 pt4 animate-fade-in-up delay-3">
+                <h3 class="f4 mb3">Kết nối với mình</h3>
+                <div class="flex justify-center items-center gap-3">
+                    {{ if .Params.social.github }}
+                    <a href="{{ .Params.social.github }}" class="btn-icon btn-github mh2" target="_blank"
+                        title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    {{ end }}
+                    {{ if .Params.social.email }}
+                    <a href="mailto:{{ .Params.social.email }}" class="btn-icon btn-email mh2" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+{{ end }}

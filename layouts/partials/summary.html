@@ -1,0 +1,40 @@
+<div class="w-100 mb4 relative card-modern bg-white">
+    <div class="flex flex-column flex-row-l h-100">
+
+        {{/* Image Section (Left side on desktop, Top on mobile) */}}
+        {{ if .Params.featured_image }}
+        <div class="w-100 w-40-l relative aspect-ratio-l aspect-ratio--16x9-l">
+            <div class="absolute top-0 left-0 w-100 h-100 cover bg-center"
+                style="background-image: url('{{ .Params.featured_image }}'); min-height: 200px;"></div>
+            <a href="{{ .RelPermalink }}" class="absolute absolute--fill z-1"></a>
+        </div>
+        {{ else }}
+        {{/* Fallback if no image: small colored bar on left */}}
+        <div class="w-100 w-05-l bg-primary dn db-l"></div>
+        {{ end }}
+
+        {{/* Content Section (Right side) */}}
+        <div class="w-100 w-60-l pa4 flex flex-column">
+            {{with .CurrentSection.Title }}
+            <div class="f7 ttu tracked mb2 text-primary fw6">{{ . }}</div>
+            {{end}}
+
+            <h1 class="f3 mt0 mb2">
+                <a href="{{ .RelPermalink }}" class="link dark-blue dim fw7">
+                    {{ .Title }}
+                </a>
+            </h1>
+
+            <div class="f5 gray lh-copy mb3 flex-auto">
+                {{ .Summary | truncate 250 }}
+            </div>
+
+            <div class="mt3">
+                <a href="{{.RelPermalink}}"
+                    class="btn-read-more f6 fw6 no-underline dib v-mid br-pill ph4 pv2 shadow-1 transition-all">
+                    {{ lang.Translate "readMore" | default "Đọc tiếp" }} <i class="fas fa-arrow-right ml2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

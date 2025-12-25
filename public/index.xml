@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog của Thành</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Sat, 28 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>9. DOM Manipulation: Thao tác với giao diện Web</title>
+      <link>http://localhost:1313/posts/post-9/</link>
+      <pubDate>Sat, 28 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-9/</guid>
+      <description>JavaScript làm gì trên trình duyệt? Tìm hiểu về DOM Tree, cách truy xuất phần tử, thay đổi style và lắng nghe sự kiện người dùng.</description>
+    </item>
+    <item>
+      <title>8. Fetch API: Cách gọi API chuẩn trong JavaScript</title>
+      <link>http://localhost:1313/posts/post-8/</link>
+      <pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-8/</guid>
+      <description>Thay thế XMLHttpRequest cũ kỹ bằng Fetch API hiện đại. Hướng dẫn gửi GET/POST Request và xử lý kết quả JSON.</description>
+    </item>
+    <item>
+      <title>7. Làm chủ Bất đồng bộ: Promise và Async/Await</title>
+      <link>http://localhost:1313/posts/post-7/</link>
+      <pubDate>Thu, 26 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-7/</guid>
+      <description>Từ Callback Hell đến cú pháp Async/Await hiện đại. Cách xử lý các tác vụ tốn thời gian như gọi API mà không làm treo giao diện.</description>
+    </item>
+    <item>
+      <title>6. Phân biệt var, let và const trong JavaScript hiện đại</title>
+      <link>http://localhost:1313/posts/post-6/</link>
+      <pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-6/</guid>
+      <description>Tại sao nên từ bỏ var? Bảng so sánh chi tiết về Scope, Hoisting và khả năng Reassign của 3 từ khóa khai báo biến trong JS.</description>
+    </item>
+    <item>
+      <title>5. Input/Output Stream và Serialization trong Java</title>
+      <link>http://localhost:1313/posts/post-5/</link>
+      <pubDate>Tue, 24 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-5/</guid>
+      <description>Phân biệt Byte Stream và Character Stream. Hướng dẫn kỹ thuật Serialization để gửi cả một Object Java qua mạng.</description>
+    </item>
+    <item>
+      <title>4. Multithreading: Xử lý đa luồng cho Server</title>
+      <link>http://localhost:1313/posts/post-4/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-4/</guid>
+      <description>Tại sao Server đơn luồng lại chậm? Giải pháp sử dụng Thread và Thread Pool để xây dựng Server phục vụ hàng ngàn Client cùng lúc.</description>
+    </item>
+    <item>
+      <title>3. Ứng dụng Chat thời gian thực với UDP</title>
+      <link>http://localhost:1313/posts/post-3/</link>
+      <pubDate>Sun, 22 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-3/</guid>
+      <description>Tìm hiểu sự khác biệt giữa TCP và UDP. Hướng dẫn sử dụng DatagramSocket để xây dựng ứng dụng gửi tin nhắn tốc độ cao.</description>
+    </item>
+    <item>
+      <title>2. Tìm hiểu sâu về Socket TCP trong Java</title>
+      <link>http://localhost:1313/posts/post-2/</link>
+      <pubDate>Sat, 21 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-2/</guid>
+      <description>Hướng dẫn chi tiết về giao thức TCP: Cơ chế bắt tay 3 bước và xây dựng ứng dụng Echo Server hoàn chỉnh bằng Java Socket.</description>
+    </item>
+    <item>
+      <title>1. Tổng quan về Lập trình mạng trong Java</title>
+      <link>http://localhost:1313/posts/post-1/</link>
+      <pubDate>Fri, 20 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-1/</guid>
+      <description>Khám phá nền tảng của lập trình mạng với Java: Hiểu về IP, Protocol, Port, Socket và cách xây dựng ứng dụng Client-Server đầu tiên.</description>
+    </item>
+    <item>
+      <title>Phạm Công Thành</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;Xin chào! Mình là một sinh viên ngành Công nghệ Thông tin, và đây là không gian mình chia sẻ hành trình khám phá thế giới rộng lớn của &lt;strong&gt;Lập trình Mạng (Network Programming)&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Blog này được xây dựng như một phần của đồ án môn học, nhưng tầm nhìn của nó đi xa hơn thế. Tại đây, mình hệ thống hóa các kiến thức từ nền tảng giao thức (TCP, UDP, HTTP) đến việc xây dựng các ứng dụng thực tế. Mình tin rằng việc hiểu sâu về cách dữ liệu di chuyển là chìa khóa để trở thành một kỹ sư phần mềm giỏi.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

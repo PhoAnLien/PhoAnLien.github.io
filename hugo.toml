@@ -1,6 +1,6 @@
 baseURL = 'https://PhoAnLien.github.io/'
 languageCode = 'vi-VN'
-title = 'Blog Lập Trình Mạng'
+title = 'Blog của Thành'
 theme = 'ananke'
 
 # Cấu hình Footer
@@ -10,9 +10,15 @@ copyright = "© 2025 Bản quyền thuộc về Thành Phạm"
 [params]
   description = "Tổng hợp kiến thức về Java Network và JavaScript"
   featured_image = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop"
-  
+  custom_css = ["css/custom.css"]
+
   # Màu sắc chủ đạo (có thể đổi: blue, green, red, pink, purple)
   body_classes = "avenir bg-near-white"
+
+  [params.ananke]
+    show_recent_posts = true
+    recent_posts_number = 5
+
 
 # CẤU HÌNH HEADER (MENU)
 [menu]

@@ -1,48 +1,45 @@
 ---
-title: "Hồ sơ cá nhân"
-layout: "page"
-menu: "main"
+title: "Phạm Công Thành"
+layout: "about"
+
 draft: false
+avatar: "/images/avatar.jpg"
+subtitle: "Sinh viên Công nghệ Thông tin"
+details: "Lớp 22DTHE6 • MSSV: 2280602955"
+
+social:
+  github: "https://github.com/PhoAnLien"
+  email: "thanhpham.apr@gmail.com"
+
+skills:
+  - category: "Core & Network"
+    items: 
+      - name: "Java Core"
+        style: "bg-light-blue dark-blue"
+      - name: "TCP/UDP Socket"
+        style: "bg-light-blue dark-blue"
+      - name: "Multithreading"
+        style: "bg-light-blue dark-blue"
+  - category: "Web Technologies"
+    items:
+      - name: "JavaScript (ES6+)"
+        style: "bg-washed-green dark-green"
+      - name: "HTML5 / CSS3"
+        style: "bg-washed-green dark-green"
+      - name: "RESTful API"
+        style: "bg-washed-green dark-green"
+  - category: "Tools & Workflow"
+    items:
+      - name: "Git / GitHub"
+        style: "bg-light-gray dark-gray"
+      - name: "Hugo"
+        style: "bg-light-gray dark-gray"
+      - name: "VS Code"
+        style: "bg-light-gray dark-gray"
 ---
 
-<div class="pa3 pa4-ns bg-white shadow-1 br3" style="font-family: Arial, Helvetica, sans-serif;">
-  <div class="tc">
-    <img src="/images/avatar.jpg" class="br-100 h4 w4 dib ba b--black-05 pa2" title="Phạm Công Thành" style="object-fit: cover;">
-    
-    <h1 class="f3 mb2">Phạm Công Thành</h1>
-    <h2 class="f5 fw4 gray mt0">Sinh viên Công nghệ Thông tin</h2>
-  </div>
+Xin chào! Mình là một sinh viên ngành Công nghệ Thông tin, và đây là không gian mình chia sẻ hành trình khám phá thế giới rộng lớn của **Lập trình Mạng (Network Programming)**.
 
-  <div class="dt-ns dt--fixed-ns w-100 mt4">
-    <div class="dtc-ns v-mid pr4-ns">
-        <h3 class="f4 bb b--black-10 pb2">👋 Giới thiệu</h3>
-        <p class="lh-copy measure">
-            Xin chào! Mình là sinh viên lớp <b>22DTHE6</b>, mã số sinh viên <b>2280602955</b>. 
-            Blog này là nơi mình hệ thống hóa lại kiến thức đồ án môn học về Lập trình mạng.
-        </p>
-        <p class="lh-copy measure">
-            Mình đam mê việc xây dựng các ứng dụng web hiệu năng cao và tìm hiểu sâu về cách dữ liệu di chuyển trên Internet.
-        </p>
-    </div>
+Blog này được xây dựng như một phần của đồ án môn học, nhưng tầm nhìn của nó đi xa hơn thế. Tại đây, mình hệ thống hóa các kiến thức từ nền tảng giao thức (TCP, UDP, HTTP) đến việc xây dựng các ứng dụng thực tế. Mình tin rằng việc hiểu sâu về cách dữ liệu di chuyển là chìa khóa để trở thành một kỹ sư phần mềm giỏi.
 
-<div class="dtc-ns v-mid pl4-ns mt4 mt0-ns">
-        <h3 class="f4 bb b--black-10 pb2">🛠 Kỹ năng chuyên môn</h3>
-        <ul class="list pl0 measure center">
-            <li class="lh-copy pv1 ba b--black-10 ph3 br2 mb2 bg-near-white">
-                <b>Java Network:</b> Socket TCP/UDP, Multithreading
-            </li>
-            <li class="lh-copy pv1 ba b--black-10 ph3 br2 mb2 bg-near-white">
-                <b>JavaScript:</b> ES6+, Fetch API, Async/Await
-            </li>
-            <li class="lh-copy pv1 ba b--black-10 ph3 br2 mb2 bg-near-white">
-                <b>Tools:</b> Git, GitHub Actions, Hugo, VS Code
-            </li>
-        </ul>
-    </div>
-  </div>
-
-  <div class="mt4 tc">
-    <a href="https://github.com/PhoAnLien" class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-dark-blue mr2" target="_blank">GitHub</a>
-    <a href="mailto:thanhpham.apr@gmail.com" class="f6 link dim br-pill ph3 pv2 mb2 dib white bg-dark-red">Email</a>
-  </div>
-</div>
+Mục tiêu của mình là không chỉ dừng lại ở lý thuyết mà còn đi sâu vào thực hành, chia sẻ các đoạn mã nguồn (snippet). Hy vọng những chia sẻ này sẽ hữu ích cho các bạn cùng đam mê!
