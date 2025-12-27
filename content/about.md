@@ -1,47 +1,53 @@
 ---
 title: "Phạm Công Thành"
 layout: "about"
-
 draft: false
 avatar: "/images/avatar.jpg"
-subtitle: "Sinh viên Công nghệ Thông tin"
-details: "Lớp 22DTHE6 • MSSV: 2280602955"
+subtitle: "Frontend Developer | Software Engineering Student"
+details: "Đại học Công nghệ TP.HCM (HUTECH) • Lớp: 22DTHE6 • MSSV: 2280602955"
 
 social:
   github: "https://github.com/PhoAnLien"
   email: "thanhpham.apr@gmail.com"
-
-skills:
-  - category: "Core & Network"
-    items: 
-      - name: "Java Core"
-        style: "bg-light-blue dark-blue"
-      - name: "TCP/UDP Socket"
-        style: "bg-light-blue dark-blue"
-      - name: "Multithreading"
-        style: "bg-light-blue dark-blue"
-  - category: "Web Technologies"
-    items:
-      - name: "JavaScript (ES6+)"
-        style: "bg-washed-green dark-green"
-      - name: "HTML5 / CSS3"
-        style: "bg-washed-green dark-green"
-      - name: "RESTful API"
-        style: "bg-washed-green dark-green"
-  - category: "Tools & Workflow"
-    items:
-      - name: "Git / GitHub"
-        style: "bg-light-gray dark-gray"
-      - name: "Hugo"
-        style: "bg-light-gray dark-gray"
-      - name: "VS Code"
-        style: "bg-light-gray dark-gray"
 ---
 
-Xin chào! Mình là Phạm Công Thành, mssv: 2280602955
+### **1. GIỚI THIỆU BẢN THÂN**
 
-Một sinh viên ngành Công nghệ Thông tin, và đây là không gian mình chia sẻ hành trình khám phá thế giới rộng lớn của **Lập trình Mạng (Network Programming)**.
+Xin chào! Mình là **Phạm Công Thành**, sinh viên chuyên ngành **Công nghệ Phần mềm** tại trường **Đại học Công nghệ TP.HCM (HUTECH)**.
 
-Blog này được xây dựng như một phần của đồ án môn học, nhưng tầm nhìn của nó đi xa hơn thế. Tại đây, mình hệ thống hóa các kiến thức từ nền tảng giao thức (TCP, UDP, HTTP) đến việc xây dựng các ứng dụng thực tế. Mình tin rằng việc hiểu sâu về cách dữ liệu di chuyển là chìa khóa để trở thành một kỹ sư phần mềm giỏi.
+Với đam mê sáng tạo giao diện Web, mình tập trung phát triển kỹ năng **Frontend Developer**, luôn tìm tòi những công nghệ mới để xây dựng các sản phẩm tối ưu cả về thẩm mỹ lẫn năng suất.
 
-Mục tiêu của mình là không chỉ dừng lại ở lý thuyết mà còn đi sâu vào thực hành, chia sẻ các đoạn mã nguồn (snippet). Hy vọng những chia sẻ này sẽ hữu ích cho các bạn cùng đam mê!
+---
+
+### **2. QUÁ TRÌNH HỌC TẬP**
+
+*   **Trường**: Đại học Công nghệ TP.HCM (HUTECH)
+*   **Chuyên ngành**: Công nghệ Phần mềm (Software Engineering)
+*   **Niên khóa**: 2022 - 2026
+*   **Điểm mạnh**: Nắm vững tư duy lập trình phần mềm, khả năng tự học tốt và sự tỉ mỉ trong việc xây dựng giao diện.
+
+---
+
+### **3. KỸ NĂNG CHUYÊN MÔN**
+
+#### **Lập trình Web & Frontend**
+*   **Nền tảng Core**: HTML5 (Semantic Web), CSS3 (Sass, CSS Modules, Animations).
+*   **JavaScript Modern**: Nắm vững ES6+, xử lý bất đồng bộ, thao tác DOM.
+*   **Frameworks & Libraries**: ReactJS Ecosystem, Next.js (Basic), Vite.
+*   **UI Frameworks**: Tailwind CSS, Bootstrap, Material UI.
+*   **Tư duy UI/UX**: Thiết kế Responsive, Mobile-First, sử dụng Figma để đọc và chuyển đổi thiết kế.
+
+#### **Backend & Công cụ hỗ trợ**
+*   **Backend cơ bản**: Node.js, Java (Academic Level), SQL Server / MySQL.
+*   **Quản lý mã nguồn**: Git, GitHub, GitLab.
+*   **Công cụ build**: NPM, Yarn, Webpack.
+
+#### **Kỹ năng mềm**
+*   **Ngoại ngữ**: Tiếng Anh chuyên ngành (Đọc hiểu tài liệu kỹ thuật).
+*   **Kỹ năng làm việc**: Làm việc nhóm (Teamwork), Giải quyết vấn đề (Problem Solving).
+
+---
+
+### **4. DỰ ÁN & ĐỊNH HƯỚNG**
+
+Trang Blog này là sản phẩm đồ án giúp mình hệ thống hóa kiến thức. Định hướng tương lai của mình là trở thành một Chuyên gia Frontend, xây dựng các ứng dụng Web phức tạp với hiệu năng cao và giao diện người dùng đột phá.
