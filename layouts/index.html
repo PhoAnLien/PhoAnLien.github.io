@@ -27,10 +27,10 @@
                     <div class="flex flex-wrap gap-2 mb3">
                         <a href="/about/" class="f7 link text-primary b mr3">Xem hồ sơ &rarr;</a>
                         {{ if $about.Params.cv_url }}
-                        <a href="{{ $about.Params.cv_url | relURL }}" target="_blank" class="f7 link dark-blue b mr3">
+                        <a href="{{ $about.Params.cv_url | absURL }}" target="_blank" class="f7 link dark-blue b mr3">
                             <i class="fas fa-eye mr1"></i>Xem CV
                         </a>
-                        <a href="{{ $about.Params.cv_url | relURL }}" download class="f7 link gray b">
+                        <a href="{{ $about.Params.cv_url | absURL }}" download class="f7 link gray b">
                             <i class="fas fa-download mr1"></i>Tải CV
                         </a>
                         {{ end }}
