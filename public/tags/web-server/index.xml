@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web Server on Blog của Thành</title>
+    <link>http://localhost:1313/tags/web-server/</link>
+    <description>Recent content in Web Server on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Thu, 26 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/web-server/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>7. Tự xây dựng HTTP Server bằng Java Socket</title>
+      <link>http://localhost:1313/posts/post-7/</link>
+      <pubDate>Thu, 26 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-7/</guid>
+      <description>Hiểu sâu về giao thức HTTP bằng cách tự tay viết một Web Server đơn giản. Phân tích cấu trúc HTTP Request và Response.</description>
+    </item>
+  </channel>
+</rss>

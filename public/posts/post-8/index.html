@@ -4,7 +4,7 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>8. Fetch API: Cách gọi API chuẩn trong JavaScript | Blog của Thành</title>
+  <title>8. Java RMI: Gọi phương thức từ xa | Blog của Thành</title>
   <meta name="viewport" content="width=device-width,minimum-scale=1">
   <meta name="generator" content="Hugo 0.153.2">
 
@@ -22,7 +22,7 @@
 
 
   
-  <link rel="stylesheet" href="/css/custom.css?v=1767078448196943900">
+  <link rel="stylesheet" href="/css/custom.css?v=1767079028950404300">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -34,7 +34,7 @@
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?internet,connection');">
+  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?connection,remote');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l center items-center justify-between">
@@ -77,7 +77,7 @@
 
       <div class="tc-l pv6 ph3 ph4-ns">
         
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">8. Fetch API: Cách gọi API chuẩn trong JavaScript</div>
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">8. Java RMI: Gọi phương thức từ xa</div>
           
         
       </div>
@@ -108,64 +108,100 @@
         
 
 
-        <h1 class="f1 athelas mt0 mb3 dark-blue">8. Fetch API: Cách gọi API chuẩn trong JavaScript</h1><div id="sharing" class="mt3 ananke-socials"></div>
+        <h1 class="f1 athelas mt0 mb3 dark-blue">8. Java RMI: Gọi phương thức từ xa</h1><div id="sharing" class="mt3 ananke-socials"></div>
 </header>
 
     <div class="nested-copy-line-height lh-copy f4 nested-links mid-gray w-100 w-70-l pr4-l">
-        <div class="post-content"><p>Trong lập trình web hiện đại (SPA - Single Page Application), việc Client (Browser) gọi API lấy dữ liệu từ Server là việc làm hàng ngày. <code>Fetch API</code> là công cụ native mạnh mẽ được xây dựng sẵn trong mọi trình duyệt hiện đại.</p>
-<h2 id="1-cơ-bản-get-request">1. Cơ bản: GET Request</h2>
-<p>Hàm <code>fetch()</code> nhận vào URL và trả về một Promise.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// Lấy thông tin user từ GitHub API
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;https://api.github.com/users/PhoAnLien&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">response</span> =&gt; {
-</span></span><span style="display:flex;"><span>     <span style="color:#75715e">// Fetch không reject lỗi HTTP (404, 500)
-</span></span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ok</span>) {
-</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> Error(<span style="color:#e6db74">&#39;Lỗi mạng hoặc 404&#39;</span>);
-</span></span><span style="display:flex;"><span>     }
-</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>(); <span style="color:#75715e">// Chuyển Stream body về JSON
-</span></span></span><span style="display:flex;"><span>  })
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; {
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;User:&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">login</span>);
-</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Avatar:&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">avatar_url</span>);
-</span></span><span style="display:flex;"><span>  })
-</span></span><span style="display:flex;"><span>  .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Có lỗi xảy ra:&#39;</span>, <span style="color:#a6e22e">error</span>));
-</span></span></code></pre></div><h2 id="2-nâng-cao-post-request">2. Nâng cao: POST Request</h2>
-<p>Để gửi dữ liệu (ví dụ: form đăng nhập) lên server, ta cần thêm tham số <code>options</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">login</span>(<span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://example.com/api/login&#39;</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">username</span>, <span style="color:#a6e22e">password</span> };
+        <div class="post-content"><p>Khi làm việc với mạng, đôi khi Socket là quá sơ cấp (low-level). Bạn muốn gọi hàm <code>tinhTong(a, b)</code> trên Server và nhận kết quả về mà không muốn lo lắng về việc đóng gói byte hay luồng dữ liệu. <strong>Java RMI (Remote Method Invocation)</strong> chính là giải pháp.</p>
+<h2 id="1-cơ-chế-hoạt-động">1. Cơ chế hoạt động</h2>
+<p>RMI cho phép một đối tượng trên máy A (Client) gọi phương thức của một đối tượng trên máy B (Server).</p>
+<ul>
+<li><strong>Stub (Client-side)</strong>: Đại diện giả của Server ở phía Client.</li>
+<li><strong>Skeleton (Server-side)</strong>: Nhận yêu cầu từ Stub, gọi hàm thực sự và trả kết quả.</li>
+</ul>
+<h2 id="2-các-bước-triển-khai-rmi">2. Các bước triển khai RMI</h2>
+<h3 id="bước-1-định-nghĩa-interface-chung-cho-client--server">Bước 1: Định nghĩa Interface (Chung cho Client &amp; Server)</h3>
+<p>Interface phải kế thừa <code>Remote</code> và các hàm phải ném ra <code>RemoteException</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.Remote;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.RemoteException;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#a6e22e">url</span>, {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;POST&#39;</span>, <span style="color:#75715e">// Phương thức gửi
-</span></span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// Báo cho server biết ta gửi JSON
-</span></span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#39;Content-Type&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;application/json&#39;</span>, 
-</span></span><span style="display:flex;"><span>            },
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>(<span style="color:#a6e22e">data</span>), <span style="color:#75715e">// Chuyển object JS thành chuỗi JSON
-</span></span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Calculator</span> <span style="color:#66d9ef">extends</span> Remote {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) <span style="color:#66d9ef">throws</span> RemoteException;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="bước-2-cài-đặt-server-implementation">Bước 2: Cài đặt Server (Implementation)</h3>
+<p>Class thực thi logic phải kế thừa <code>UnicastRemoteObject</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.server.UnicastRemoteObject;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.RemoteException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.registry.LocateRegistry;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.registry.Registry;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>();
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Token:&#39;</span>, <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">token</span>);
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Lỗi đăng nhập:&#39;</span>, <span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CalculatorServer</span> <span style="color:#66d9ef">extends</span> UnicastRemoteObject <span style="color:#66d9ef">implements</span> Calculator {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">CalculatorServer</span>() <span style="color:#66d9ef">throws</span> RemoteException {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) <span style="color:#66d9ef">throws</span> RemoteException {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Client yêu cầu tính tổng: &#34;</span> <span style="color:#f92672">+</span> a <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; + &#34;</span> <span style="color:#f92672">+</span> b);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Tạo Registry ở cổng 1099</span>
+</span></span><span style="display:flex;"><span>            Registry registry <span style="color:#f92672">=</span> LocateRegistry.<span style="color:#a6e22e">createRegistry</span>(1099);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Đăng ký object với tên &#34;CalcService&#34;</span>
+</span></span><span style="display:flex;"><span>            registry.<span style="color:#a6e22e">rebind</span>(<span style="color:#e6db74">&#34;CalcService&#34;</span>, <span style="color:#66d9ef">new</span> CalculatorServer());
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;RMI Server đã sẵn sàng!&#34;</span>);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="3-lưu-ý-quan-trọng">3. Lưu ý quan trọng</h2>
+</span></span></code></pre></div><h3 id="bước-3-viết-client">Bước 3: Viết Client</h3>
+<p>Client sẽ tìm kiếm dịch vụ thông qua tên đã đăng ký.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.registry.LocateRegistry;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.rmi.registry.Registry;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CalculatorClient</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Kết nối đến Registry lại localhost:1099</span>
+</span></span><span style="display:flex;"><span>            Registry registry <span style="color:#f92672">=</span> LocateRegistry.<span style="color:#a6e22e">getRegistry</span>(<span style="color:#e6db74">&#34;localhost&#34;</span>, 1099);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Tìm kiếm (Lookup) dịch vụ</span>
+</span></span><span style="display:flex;"><span>            Calculator calc <span style="color:#f92672">=</span> (Calculator) registry.<span style="color:#a6e22e">lookup</span>(<span style="color:#e6db74">&#34;CalcService&#34;</span>);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Gọi hàm từ xa như gọi hàm cục bộ</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> calc.<span style="color:#a6e22e">add</span>(10, 20);
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Kết quả từ Server: &#34;</span> <span style="color:#f92672">+</span> result);
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="3-ưu-nhược-điểm">3. Ưu nhược điểm</h2>
 <ul>
-<li><strong>CORS</strong>: Khi gọi API khác domain, bạn có thể gặp lỗi Cross-Origin Resource Sharing. Server cần cho phép domain của bạn truy cập.</li>
-<li><strong>Cookies</strong>: Fetch mặc định không gửi cookies. Cần thêm <code>credentials: 'include'</code> nếu muốn gửi session.</li>
+<li><strong>Ưu điểm</strong>: Code rất trong sáng, che giấu sự phức tạp của mạng.</li>
+<li><strong>Nhược điểm</strong>: Chỉ hoạt động giữa các máy chạy Java (Tốc độ chậm hơn Socket thuần túy).</li>
 </ul>
-<p>Fetch API mạnh mẽ, linh hoạt và là nền tảng để các thư viện như <code>Axios</code> phát triển thêm các tính năng tiện ích.</p>
+<p>Ngày nay, RMI ít được dùng trực tiếp mà thay thế bằng Web Services (REST, gRPC) nhưng nó vẫn là nền tảng lịch sử quan trọng của các hệ thống phân tán Java (Enterprise Beans).</p>
 </div><ul class="pa0">
   
    <li class="list di">
-     <a href="/tags/javascript/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">JavaScript</a>
+     <a href="/tags/java/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a>
    </li>
   
    <li class="list di">
-     <a href="/tags/api/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">API</a>
+     <a href="/tags/rmi/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">RMI</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/rpc/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">RPC</a>
    </li>
   
 </ul>

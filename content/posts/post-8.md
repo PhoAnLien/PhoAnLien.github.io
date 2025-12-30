@@ -1,64 +1,100 @@
 ---
-title: "8. Fetch API: Cách gọi API chuẩn trong JavaScript"
+title: "8. Java RMI: Gọi phương thức từ xa"
 date: 2024-12-27
 draft: false
-tags: ["JavaScript", "API"]
-categories: ["JavaScript", "API"]
-featured_image: "https://source.unsplash.com/random/800x600/?internet,connection"
-summary: "Thay thế XMLHttpRequest cũ kỹ bằng Fetch API hiện đại. Hướng dẫn gửi GET/POST Request và xử lý kết quả JSON."
+tags: ["Java", "RMI", "RPC"]
+categories: ["Java", "Network"]
+featured_image: "https://source.unsplash.com/random/800x600/?connection,remote"
+summary: "Tìm hiểu về công nghệ RMI, cách gọi một hàm nằm trên máy tính khác như thể nó đang ở máy mình. Nền tảng của các hệ thống phân tán."
 ---
 
-Trong lập trình web hiện đại (SPA - Single Page Application), việc Client (Browser) gọi API lấy dữ liệu từ Server là việc làm hàng ngày. `Fetch API` là công cụ native mạnh mẽ được xây dựng sẵn trong mọi trình duyệt hiện đại.
+Khi làm việc với mạng, đôi khi Socket là quá sơ cấp (low-level). Bạn muốn gọi hàm `tinhTong(a, b)` trên Server và nhận kết quả về mà không muốn lo lắng về việc đóng gói byte hay luồng dữ liệu. **Java RMI (Remote Method Invocation)** chính là giải pháp.
 
-## 1. Cơ bản: GET Request
-Hàm `fetch()` nhận vào URL và trả về một Promise.
+## 1. Cơ chế hoạt động
+RMI cho phép một đối tượng trên máy A (Client) gọi phương thức của một đối tượng trên máy B (Server).
+- **Stub (Client-side)**: Đại diện giả của Server ở phía Client.
+- **Skeleton (Server-side)**: Nhận yêu cầu từ Stub, gọi hàm thực sự và trả kết quả.
 
-```javascript
-// Lấy thông tin user từ GitHub API
-fetch('https://api.github.com/users/PhoAnLien')
-  .then(response => {
-     // Fetch không reject lỗi HTTP (404, 500)
-     if (!response.ok) {
-         throw new Error('Lỗi mạng hoặc 404');
-     }
-     return response.json(); // Chuyển Stream body về JSON
-  })
-  .then(data => {
-      console.log("User:", data.login);
-      console.log("Avatar:", data.avatar_url);
-  })
-  .catch(error => console.error('Có lỗi xảy ra:', error));
+## 2. Các bước triển khai RMI
+
+### Bước 1: Định nghĩa Interface (Chung cho Client & Server)
+Interface phải kế thừa `Remote` và các hàm phải ném ra `RemoteException`.
+
+```java
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface Calculator extends Remote {
+    int add(int a, int b) throws RemoteException;
+}
 ```
 
-## 2. Nâng cao: POST Request
-Để gửi dữ liệu (ví dụ: form đăng nhập) lên server, ta cần thêm tham số `options`.
+### Bước 2: Cài đặt Server (Implementation)
+Class thực thi logic phải kế thừa `UnicastRemoteObject`.
 
-```javascript
-async function login(username, password) {
-    const url = 'https://example.com/api/login';
-    const data = { username, password };
+```java
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST', // Phương thức gửi
-            headers: {
-                // Báo cho server biết ta gửi JSON
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify(data), // Chuyển object JS thành chuỗi JSON
-        });
+public class CalculatorServer extends UnicastRemoteObject implements Calculator {
+    
+    protected CalculatorServer() throws RemoteException {
+        super();
+    }
 
-        const result = await response.json();
-        console.log('Token:', result.token);
-        
-    } catch (error) {
-        console.error('Lỗi đăng nhập:', error);
+    @Override
+    public int add(int a, int b) throws RemoteException {
+        System.out.println("Client yêu cầu tính tổng: " + a + " + " + b);
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        try {
+            // Tạo Registry ở cổng 1099
+            Registry registry = LocateRegistry.createRegistry(1099);
+            
+            // Đăng ký object với tên "CalcService"
+            registry.rebind("CalcService", new CalculatorServer());
+            
+            System.out.println("RMI Server đã sẵn sàng!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 ```
 
-## 3. Lưu ý quan trọng
-- **CORS**: Khi gọi API khác domain, bạn có thể gặp lỗi Cross-Origin Resource Sharing. Server cần cho phép domain của bạn truy cập.
-- **Cookies**: Fetch mặc định không gửi cookies. Cần thêm `credentials: 'include'` nếu muốn gửi session.
+### Bước 3: Viết Client
+Client sẽ tìm kiếm dịch vụ thông qua tên đã đăng ký.
 
-Fetch API mạnh mẽ, linh hoạt và là nền tảng để các thư viện như `Axios` phát triển thêm các tính năng tiện ích.
+```java
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class CalculatorClient {
+    public static void main(String[] args) {
+        try {
+            // Kết nối đến Registry lại localhost:1099
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            
+            // Tìm kiếm (Lookup) dịch vụ
+            Calculator calc = (Calculator) registry.lookup("CalcService");
+            
+            // Gọi hàm từ xa như gọi hàm cục bộ
+            int result = calc.add(10, 20);
+            System.out.println("Kết quả từ Server: " + result);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## 3. Ưu nhược điểm
+- **Ưu điểm**: Code rất trong sáng, che giấu sự phức tạp của mạng.
+- **Nhược điểm**: Chỉ hoạt động giữa các máy chạy Java (Tốc độ chậm hơn Socket thuần túy).
+
+Ngày nay, RMI ít được dùng trực tiếp mà thay thế bằng Web Services (REST, gRPC) nhưng nó vẫn là nền tảng lịch sử quan trọng của các hệ thống phân tán Java (Enterprise Beans).

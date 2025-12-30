@@ -1,62 +1,94 @@
 ---
-title: "9. DOM Manipulation: Thao tác với giao diện Web"
+title: "9. Bảo mật kết nối mạng: SSL/TLS Socket trong Java"
 date: 2024-12-28
 draft: false
-tags: ["JavaScript", "DOM"]
-categories: ["JavaScript", "DOM"]
-featured_image: "https://source.unsplash.com/random/800x600/?browser,web"
-summary: "JavaScript làm gì trên trình duyệt? Tìm hiểu về DOM Tree, cách truy xuất phần tử, thay đổi style và lắng nghe sự kiện người dùng."
+tags: ["Java", "Security", "SSL"]
+categories: ["Java", "Security"]
+featured_image: "https://source.unsplash.com/random/800x600/?lock,security"
+summary: "Tại sao HTTP lại không an toàn? Hướng dẫn nâng cấp ứng dụng Socket thường thành SSLSocket được mã hóa (Giống HTTPS)."
 ---
 
-DOM (Document Object Model) là cây cấu trúc của trang HTML. Trình duyệt biến mã HTML thành một cây các đối tượng (Object) để JavaScript có thể tương tác.
+Khi bạn gửi mật khẩu qua Socket thường, nó được truyền dưới dạng văn bản (Clear Text). Hacker ngồi ở giữa (Man-in-the-Middle) có thể đọc được tất cả. Để bảo mật, ta cần mã hóa đường truyền bằng **SSL/TLS**.
 
-## 1. Truy xuất phần tử (Selectors)
-Để thay đổi cái gì, bạn phải "chọn" được nó trước.
+## 1. SSL/TLS là gì?
+- **SSL (Secure Sockets Layer)**: Công nghệ mã hóa cũ.
+- **TLS (Transport Layer Security)**: Bản nâng cấp an toàn hơn của SSL.
+- Java cung cấp lớp `SSLSocket` và `SSLServerSocket` để hỗ trợ việc này.
 
-- `document.getElementById('header')`: Nhanh nhất, lấy theo ID.
-- `document.querySelector('.btn-primary')`: Chọn phần tử **đầu tiên** khớp CSS Selector.
-- `document.querySelectorAll('li')`: Chọn **tất cả**, trả về `NodeList` (giống mảng).
+## 2. Quy trình mã hóa
+Để chạy được SSL, Server cần một "Chứng minh thư" kỹ thuật số gọi là **Keystore** (chứa Private Key và Public Certificate).
 
-## 2. Thay đổi nội dung và Style
-```javascript
-const title = document.querySelector('h1');
-
-// 1. Thay đổi nội dung
-title.textContent = "Xin chào JavaScript!"; 
-
-// 2. Thay đổi style (CSS inline)
-title.style.color = "red";
-title.style.fontSize = "2rem";
-
-// 3. Thay đổi Class (Khuyên dùng)
-title.classList.add("highlight");
-title.classList.toggle("hidden");
+### Tạo Keystore (Dùng lệnh keytool)
+Mở terminal và chạy lệnh sau để tạo một file chứng chỉ tự ký (Self-signed):
+```bash
+keytool -genkey -keystore mykeystore.jks -keyalg RSA
 ```
+*(Nhập mật khẩu là "password" cho dễ nhớ)*
 
-## 3. Lắng nghe sự kiện (Event Listener)
-Tương tác người dùng (click, gõ phím, scroll) là cốt lõi của web.
+## 3. Code SSL Server
+Khác với Socket thường, ta cần nạp Keystore trước khi mở cổng.
 
-```javascript
-const btn = document.querySelector('#submit-btn');
+```java
+import javax.net.ssl.*;
+import java.io.*;
+import java.security.KeyStore;
 
-btn.addEventListener('click', function(event) {
-    event.preventDefault(); // Ngăn form reload trang
-    alert('Bạn đã click nút!');
-    console.log(event.target); // Xem ai đã click
-});
-```
+public class SecureServer {
+    public static void main(String[] args) throws Exception {
+        // 1. Load Keystore
+        char[] password = "password".toCharArray();
+        KeyStore ks = KeyStore.getInstance("JKS");
+        ks.load(new FileInputStream("mykeystore.jks"), password);
 
-## 4. Cơ chế Event Bubbling
-Khi bạn click vào một thẻ `<span>` nằm trong thẻ `<div>`, sự kiện click sẽ kích hoạt ở `span` trước, sau đó "nổi bọt" (bubble) lên `div`, rồi lên `body`...
-Hiểu điều này giúp bạn áp dụng kỹ thuật **Event Delegation**: Thay vì gắn sự kiện cho 1000 dòng trong bảng, hãy gắn 1 sự kiện vào cái bảng (table) cha và kiểm tra `event.target`.
+        // 2. Tạo KeyManagerFactory
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+        kmf.init(ks, password);
 
-```javascript
-// Gắn 1 lần cho cha, xử lý cho tất cả con
-document.querySelector('#parent-list').addEventListener('click', (e) => {
-    if (e.target.tagName === 'LI') {
-        console.log("Bạn chọn mục:", e.target.textContent);
+        // 3. Khởi tạo SSLContext
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(kmf.getKeyManagers(), null, null);
+
+        // 4. Tạo SSLServerSocket
+        SSLServerSocketFactory ssf = sslContext.getServerSocketFactory();
+        SSLServerSocket serverSocket = (SSLServerSocket) ssf.createServerSocket(8443);
+        
+        System.out.println("Secure Server listening on port 8443...");
+
+        // 5. Chấp nhận kết nối như bình thường
+        while(true) {
+            SSLSocket socket = (SSLSocket) serverSocket.accept();
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("Hello Secure World!");
+            socket.close();
+        }
     }
-});
+}
 ```
 
-Hiểu rõ DOM giúp bản làm chủ được giao diện người dùng mà không phụ thuộc quá nhiều vào các Framework như React hay Vue trong những tác vụ đơn giản.
+## 4. Code SSL Client
+Client cần tin tưởng chứng chỉ của Server (TrustStore). Trong môi trường Develop, ta thường dùng cờ buộc tin tưởng tất cả (Trust All) hoặc import chứng chỉ vào Java TrustStore.
+
+```java
+import javax.net.ssl.*;
+import java.io.*;
+
+public class SecureClient {
+    public static void main(String[] args) throws Exception {
+        // Để đơn giản demo, ta dùng socket factory mặc định
+        // (Lưu ý trong thực tế cần cấu hình TrustStore nếu dùng Self-signed Cert)
+        System.setProperty("javax.net.ssl.trustStore", "mykeystore.jks");
+        System.setProperty("javax.net.ssl.trustStorePassword", "password");
+
+        SSLSocketFactory ssf = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        SSLSocket socket = (SSLSocket) ssf.createSocket("localhost", 8443);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        System.out.println("Server nói: " + in.readLine());
+        
+        socket.close();
+    }
+}
+```
+
+## 5. Kết luận
+Bảo mật không phải là tính năng "có cho vui", nó là yêu cầu bắt buộc. Với Java `SSLSocket`, bạn có thể nâng cấp bất kỳ ứng dụng Chat/Game nào của mình lên chuẩn bảo mật công nghiệp, đảm bảo dữ liệu người dùng luôn an toàn.

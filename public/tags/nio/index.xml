@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NIO on Blog của Thành</title>
+    <link>http://localhost:1313/tags/nio/</link>
+    <description>Recent content in NIO on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Wed, 25 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/nio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>6. Java NIO: Lập trình mạng hiệu năng cao với Non-blocking I/O</title>
+      <link>http://localhost:1313/posts/post-6/</link>
+      <pubDate>Wed, 25 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-6/</guid>
+      <description>Vượt qua giới hạn của IO truyền thống. Tìm hiểu về Buffer, Channel và Selector để xây dựng Server có khả năng xử lý hàng chục ngàn kết nối đồng thời (C10k problem).</description>
+    </item>
+  </channel>
+</rss>

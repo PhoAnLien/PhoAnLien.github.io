@@ -4,7 +4,7 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>6. Phân biệt var, let và const trong JavaScript hiện đại | Blog của Thành</title>
+  <title>6. Java NIO: Lập trình mạng hiệu năng cao với Non-blocking I/O | Blog của Thành</title>
   <meta name="viewport" content="width=device-width,minimum-scale=1">
   <meta name="generator" content="Hugo 0.153.2">
 
@@ -22,7 +22,7 @@
 
 
   
-  <link rel="stylesheet" href="/css/custom.css?v=1767078448195938200">
+  <link rel="stylesheet" href="/css/custom.css?v=1767079028951051900">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -34,7 +34,7 @@
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?javascript,code');">
+  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?server,performance');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l center items-center justify-between">
@@ -77,7 +77,7 @@
 
       <div class="tc-l pv6 ph3 ph4-ns">
         
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">6. Phân biệt var, let và const trong JavaScript hiện đại</div>
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">6. Java NIO: Lập trình mạng hiệu năng cao với Non-blocking I/O</div>
           
         
       </div>
@@ -108,82 +108,106 @@
         
 
 
-        <h1 class="f1 athelas mt0 mb3 dark-blue">6. Phân biệt var, let và const trong JavaScript hiện đại</h1><div id="sharing" class="mt3 ananke-socials"></div>
+        <h1 class="f1 athelas mt0 mb3 dark-blue">6. Java NIO: Lập trình mạng hiệu năng cao với Non-blocking I/O</h1><div id="sharing" class="mt3 ananke-socials"></div>
 </header>
 
     <div class="nested-copy-line-height lh-copy f4 nested-links mid-gray w-100 w-70-l pr4-l">
-        <div class="post-content"><p>Từ phiên bản ES6 (2015), JavaScript đã thay đổi hoàn toàn cách khai báo biến. Việc hiểu rõ <code>var</code>, <code>let</code>, <code>const</code> không chỉ giúp code sạch hơn mà còn tránh được hàng tá lỗi logic khó tìm (bugs).</p>
-<h2 id="bảng-so-sánh-nhanh">Bảng so sánh nhanh</h2>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Đặc điểm</th>
-          <th style="text-align: left"><code>var</code></th>
-          <th style="text-align: left"><code>let</code></th>
-          <th style="text-align: left"><code>const</code></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><strong>Phạm vi (Scope)</strong></td>
-          <td style="text-align: left">Function Scope</td>
-          <td style="text-align: left">Block Scope <code>{}</code></td>
-          <td style="text-align: left">Block Scope <code>{}</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Hoisting</strong></td>
-          <td style="text-align: left">Có (khởi tạo <code>undefined</code>)</td>
-          <td style="text-align: left">Có (nhưng ở trong vùng chết - TDZ)</td>
-          <td style="text-align: left">Có (nhưng ở trong vùng chết - TDZ)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Gán lại (Reassign)</strong></td>
-          <td style="text-align: left">Có</td>
-          <td style="text-align: left">Có</td>
-          <td style="text-align: left">Không</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><strong>Khai báo lại (Redeclare)</strong></td>
-          <td style="text-align: left">Có</td>
-          <td style="text-align: left">Không</td>
-          <td style="text-align: left">Không</td>
-      </tr>
-  </tbody>
-</table>
-<hr>
-<h2 id="1-var---người-cũ-nên-tránh">1. Var - &ldquo;Người cũ&rdquo; (Nên tránh)</h2>
-<p><code>var</code> có phạm vi là <strong>Function Scope</strong>, nghĩa là nếu bạn khai báo nó trong một khối <code>if</code> hay vòng lặp <code>for</code>, nó <strong>VẪN</strong> truy cập được ở bên ngoài khối đó (miễn là trong cùng hàm).</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">true</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">x</span>); <span style="color:#75715e">// 10 (Vẫn chạy được! -&gt; Dễ gây lỗi)
-</span></span></span></code></pre></div><p>Ngoài ra, <code>var</code> bị <strong>Hoisting</strong> kỳ lạ: bạn có thể dùng biến trước khi khai báo nó (giá trị là <code>undefined</code>), điều này làm code rất khó debug.</p>
-<h2 id="2-let---sự-thay-thế-hoàn-hảo">2. Let - &ldquo;Sự thay thế hoàn hảo&rdquo;</h2>
-<p><code>let</code> ra đời để sửa lỗi của <code>var</code>. Nó có phạm vi <strong>Block Scope</strong> (trong cặp ngoặc nhọn <code>{}</code>). Biến chỉ tồn tại và có ý nghĩa trong khối đó.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">true</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">y</span>); <span style="color:#75715e">// Error: y is not defined (Đúng logic!)
-</span></span></span></code></pre></div><h2 id="3-const---bất-biến-ưu-tiên-dùng">3. Const - &ldquo;Bất biến&rdquo; (Ưu tiên dùng)</h2>
-<p><code>const</code> giống <code>let</code> về scope, nhưng bạn bắt buộc phải gán giá trị ngay khi khai báo và <strong>không thể gán lại</strong> giá trị mới cho nó.</p>
-<h3 id="hiểu-lầm-thường-gặp-về-const">Hiểu lầm thường gặp về Const</h3>
-<p>Nhiều người nghĩ <code>const</code> tạo ra giá trị bất biến hoàn toàn. Sai! Nếu <code>const</code> là một Object hoặc Array, bạn <strong>VẪN</strong> có thể thay đổi nội dung bên trong nó.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Thanh&#34;</span> };
+        <div class="post-content"><p>Trong các bài trước, chúng ta đã dùng <code>java.io</code> (Blocking I/O). Nhược điểm lớn nhất của nó là mỗi Client kết nối cần một Thread riêng biệt. Khi số lượng Client lên tới hàng ngàn, Server sẽ bị quá tải bộ nhớ. <code>Java NIO</code> (New I/O) ra đời để giải quyết vấn đề này.</p>
+<h2 id="1-ba-thành-phần-cốt-lõi-của-nio">1. Ba thành phần cốt lõi của NIO</h2>
+<h3 id="channel-kênh">Channel (Kênh)</h3>
+<p>Giống như &ldquo;đường ống&rdquo; trong IO truyền thống, nhưng Channel có thể đọc và ghi hai chiều (bi-directional) và hỗ trợ thao tác bất đồng bộ.</p>
+<ul>
+<li><code>SocketChannel</code>: Dùng cho TCP Client.</li>
+<li><code>ServerSocketChannel</code>: Dùng cho TCP Server.</li>
+<li><code>DatagramChannel</code>: Dùng cho UDP.</li>
+</ul>
+<h3 id="buffer-bộ-đệm">Buffer (Bộ đệm)</h3>
+<p>Trong NIO, dữ liệu luôn được đọc vào hoặc ghi từ một <code>Buffer</code>. Nó giống như một khay chứa dữ liệu tạm thời.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Tạo buffer với dung lượng 1024 byte</span>
+</span></span><span style="display:flex;"><span>ByteBuffer buffer <span style="color:#f92672">=</span> ByteBuffer.<span style="color:#a6e22e">allocate</span>(1024);
+</span></span></code></pre></div><h3 id="selector-bộ-chọn">Selector (Bộ chọn)</h3>
+<p>Đây là &ldquo;vũ khí bí mật&rdquo; của NIO. Một Selector có thể giám sát nhiều Channel cùng lúc. Nó cho phép <strong>một Thread duy nhất</strong> xử lý hàng ngàn kết nối.</p>
+<h2 id="2-mô-hình-hoạt-động-của-selector">2. Mô hình hoạt động của Selector</h2>
+<p>Thay vì chặn (block) chờ dữ liệu, Selector sẽ hỏi: <em>&ldquo;Có Channel nào đang sẵn sàng để đọc/ghi không?&rdquo;</em>.</p>
+<ol>
+<li>Đăng ký các Channel vào Selector với sự kiện quan tâm (<code>OP_ACCEPT</code>, <code>OP_READ</code>, &hellip;).</li>
+<li>Selector chạy vòng lặp vô tận, chờ sự kiện xảy ra.</li>
+<li>Khi có sự kiện, Selector trả về danh sách các <code>SelectionKey</code>.</li>
+<li>Xử lý dữ liệu và quay lại chờ đợi.</li>
+</ol>
+<h2 id="3-ví-dụ-nio-server-đơn-giản">3. Ví dụ: NIO Server đơn giản</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.InetSocketAddress;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.ByteBuffer;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.channels.*;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Iterator;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Set;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Hợp lệ: Thay đổi thuộc tính bên trong
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;John&#34;</span>; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NioServer</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. Mở Selector</span>
+</span></span><span style="display:flex;"><span>        Selector selector <span style="color:#f92672">=</span> Selector.<span style="color:#a6e22e">open</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Lỗi: Gán lại cả object
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// user = { name: &#34;Doe&#34; }; // TypeError: Assignment to constant variable.
-</span></span></span></code></pre></div><p><strong>Lời khuyên:</strong> Hãy dùng <code>const</code> mặc định cho mọi biến. Chỉ khi nào bạn biết chắc chắn biến đó cần thay đổi giá trị (như biến đếm <code>i</code> trong vòng lặp), hãy đổi sang dùng <code>let</code>. Đừng bao giờ dùng <code>var</code> nữa.</p>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2. Mở ServerSocketChannel và lắng nghe cổng 5000</span>
+</span></span><span style="display:flex;"><span>        ServerSocketChannel serverSocket <span style="color:#f92672">=</span> ServerSocketChannel.<span style="color:#a6e22e">open</span>();
+</span></span><span style="display:flex;"><span>        serverSocket.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">new</span> InetSocketAddress(5000));
+</span></span><span style="display:flex;"><span>        serverSocket.<span style="color:#a6e22e">configureBlocking</span>(<span style="color:#66d9ef">false</span>); <span style="color:#75715e">// Quan trọng: Chế độ Non-blocking</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 3. Đăng ký nhận sự kiện kết nối mới (Accept)</span>
+</span></span><span style="display:flex;"><span>        serverSocket.<span style="color:#a6e22e">register</span>(selector, SelectionKey.<span style="color:#a6e22e">OP_ACCEPT</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;NIO Server started on port 5000...&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Chờ sự kiện (Block cho đến khi có ít nhất 1 channel sẵn sàng)</span>
+</span></span><span style="display:flex;"><span>            selector.<span style="color:#a6e22e">select</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Lấy danh sách các key đã sẵn sàng</span>
+</span></span><span style="display:flex;"><span>            Set<span style="color:#f92672">&lt;</span>SelectionKey<span style="color:#f92672">&gt;</span> selectedKeys <span style="color:#f92672">=</span> selector.<span style="color:#a6e22e">selectedKeys</span>();
+</span></span><span style="display:flex;"><span>            Iterator<span style="color:#f92672">&lt;</span>SelectionKey<span style="color:#f92672">&gt;</span> iter <span style="color:#f92672">=</span> selectedKeys.<span style="color:#a6e22e">iterator</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (iter.<span style="color:#a6e22e">hasNext</span>()) {
+</span></span><span style="display:flex;"><span>                SelectionKey key <span style="color:#f92672">=</span> iter.<span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (key.<span style="color:#a6e22e">isAcceptable</span>()) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Xử lý kết nối mới</span>
+</span></span><span style="display:flex;"><span>                    SocketChannel client <span style="color:#f92672">=</span> serverSocket.<span style="color:#a6e22e">accept</span>();
+</span></span><span style="display:flex;"><span>                    client.<span style="color:#a6e22e">configureBlocking</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>                    client.<span style="color:#a6e22e">register</span>(selector, SelectionKey.<span style="color:#a6e22e">OP_READ</span>);
+</span></span><span style="display:flex;"><span>                    System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;New connection: &#34;</span> <span style="color:#f92672">+</span> client.<span style="color:#a6e22e">getRemoteAddress</span>());
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (key.<span style="color:#a6e22e">isReadable</span>()) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// Xử lý đọc dữ liệu</span>
+</span></span><span style="display:flex;"><span>                    SocketChannel client <span style="color:#f92672">=</span> (SocketChannel) key.<span style="color:#a6e22e">channel</span>();
+</span></span><span style="display:flex;"><span>                    ByteBuffer buffer <span style="color:#f92672">=</span> ByteBuffer.<span style="color:#a6e22e">allocate</span>(256);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> bytesRead <span style="color:#f92672">=</span> client.<span style="color:#a6e22e">read</span>(buffer);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (bytesRead <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1) {
+</span></span><span style="display:flex;"><span>                        client.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>                    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                        String msg <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String(buffer.<span style="color:#a6e22e">array</span>()).<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>                        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Received: &#34;</span> <span style="color:#f92672">+</span> msg);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                iter.<span style="color:#a6e22e">remove</span>(); <span style="color:#75715e">// Xóa key đã xử lý</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="4-tại-sao-nio-nhanh-hơn">4. Tại sao NIO nhanh hơn?</h2>
+<p>NIO cho phép xử lý I/O không chặn dòng thực thi (Non-blocking). Nó giúp tiết kiệm tài nguyên hệ thống (ít Thread hơn) và giảm chi phí chuyển ngữ cảnh (Context Switching), đặc biệt hiệu quả cho các ứng dụng chat, server game hoặc các hệ thống thời gian thực tải cao.</p>
 </div><ul class="pa0">
   
    <li class="list di">
-     <a href="/tags/javascript/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">JavaScript</a>
+     <a href="/tags/java/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a>
    </li>
   
    <li class="list di">
-     <a href="/tags/es6/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">ES6</a>
+     <a href="/tags/nio/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">NIO</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/network/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Network</a>
    </li>
   
 </ul>

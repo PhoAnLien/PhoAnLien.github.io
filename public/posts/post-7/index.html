@@ -4,7 +4,7 @@
 <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>7. Làm chủ Bất đồng bộ: Promise và Async/Await | Blog của Thành</title>
+  <title>7. Tự xây dựng HTTP Server bằng Java Socket | Blog của Thành</title>
   <meta name="viewport" content="width=device-width,minimum-scale=1">
   <meta name="generator" content="Hugo 0.153.2">
 
@@ -22,7 +22,7 @@
 
 
   
-  <link rel="stylesheet" href="/css/custom.css?v=1767078448198299500">
+  <link rel="stylesheet" href="/css/custom.css?v=1767079028950404300">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -34,7 +34,7 @@
   
   
   
-  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?time,clock');">
+  <header class="cover bg-center" style="background-image: url('https://source.unsplash.com/random/800x600/?web,http');">
     <div class="bg-black-60">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l center items-center justify-between">
@@ -77,7 +77,7 @@
 
       <div class="tc-l pv6 ph3 ph4-ns">
         
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">7. Làm chủ Bất đồng bộ: Promise và Async/Await</div>
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">7. Tự xây dựng HTTP Server bằng Java Socket</div>
           
         
       </div>
@@ -108,59 +108,92 @@
         
 
 
-        <h1 class="f1 athelas mt0 mb3 dark-blue">7. Làm chủ Bất đồng bộ: Promise và Async/Await</h1><div id="sharing" class="mt3 ananke-socials"></div>
+        <h1 class="f1 athelas mt0 mb3 dark-blue">7. Tự xây dựng HTTP Server bằng Java Socket</h1><div id="sharing" class="mt3 ananke-socials"></div>
 </header>
 
     <div class="nested-copy-line-height lh-copy f4 nested-links mid-gray w-100 w-70-l pr4-l">
-        <div class="post-content"><p>JavaScript là ngôn ngữ đơn luồng (single-threaded), nghĩa là nó chỉ làm một việc tại một thời điểm. Vậy tại sao nó có thể gọi API, đọc file, hẹn giờ&hellip; cùng lúc mà giao diện không bị treo? Đó là nhờ cơ chế <strong>Event Loop</strong> và <strong>Asynchronous</strong> (Bất đồng bộ).</p>
-<h2 id="1-thời-kỳ-đen-tối-callback-hell">1. Thời kỳ đen tối: Callback Hell</h2>
-<p>Ngày xưa, để xử lý việc A xong rồi mới làm việc B, ta truyền hàm B vào hàm A.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">getData</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getMoreData</span>(<span style="color:#a6e22e">a</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">b</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">getEvenMoreData</span>(<span style="color:#a6e22e">b</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">c</span>) { 
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Cấu trúc hình kim tự tháp (Pyramid of Doom)
-</span></span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Code thụt lề quá sâu, khó đọc, khó bắt lỗi
-</span></span></span><span style="display:flex;"><span>        });
-</span></span><span style="display:flex;"><span>    });
-</span></span><span style="display:flex;"><span>});
-</span></span></code></pre></div><h2 id="2-promise-es6---lời-hứa">2. Promise (ES6) - Lời hứa</h2>
-<p>Promise đại diện cho giá trị chưa có ngay lập tức nhưng sẽ có trong tương lai. Nó có 3 trạng thái:</p>
-<ul>
-<li><strong>Pending</strong>: Đang chờ.</li>
-<li><strong>Fulfilled</strong>: Thành công (Resolve).</li>
-<li><strong>Rejected</strong>: Thất bại (Reject).</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">getData</span>()
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">a</span> =&gt; <span style="color:#a6e22e">getMoreData</span>(<span style="color:#a6e22e">a</span>)) <span style="color:#75715e">// Trả về promise tiếp theo
-</span></span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">b</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">b</span>)) <span style="color:#75715e">// Xử lý kết quả cuối
-</span></span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">err</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">err</span>)); <span style="color:#75715e">// Bắt lỗi chung cho cả chuỗi
-</span></span></span></code></pre></div><p>Code đã phẳng hơn, dễ đọc hơn.</p>
-<h2 id="3-async--await-es8---chân-ái">3. Async / Await (ES8) - Chân ái</h2>
-<p>Đây là cú pháp &ldquo;syntactic sugar&rdquo; bọc lấy Promise, giúp viết code bất đồng bộ trông giống hệt code đồng bộ thông thường.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">getData</span>(); <span style="color:#75715e">// Dừng ở đây đợi a xong
-</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">getMoreData</span>(<span style="color:#a6e22e">a</span>); <span style="color:#75715e">// Dừng đợi b xong
-</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">b</span>);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Bắt lỗi như code bình thường
-</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;Lỗi rồi:&#34;</span>, <span style="color:#a6e22e">err</span>);
+        <div class="post-content"><p>Chúng ta thường dùng Apache, Nginx hay Tomcat để chạy web. Nhưng bạn có bao giờ thắc mắc bên dưới chúng hoạt động thế nào không? Thực chất, Web Server cũng chỉ là một ứng dụng Socket Server giao tiếp theo chuẩn <strong>HTTP</strong> (HyperText Transfer Protocol).</p>
+<h2 id="1-cấu-trúc-giao-thức-http">1. Cấu trúc giao thức HTTP</h2>
+<p>HTTP là giao thức dựa trên văn bản (text-based).</p>
+<h3 id="http-request-client-gửi-lên">HTTP Request (Client gửi lên)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>GET /index.html HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: localhost:8080
+</span></span><span style="display:flex;"><span>User-Agent: Mozilla/5.0...
+</span></span><span style="display:flex;"><span>(Dòng trống)
+</span></span><span style="display:flex;"><span>(Body nếu có)
+</span></span></code></pre></div><h3 id="http-response-server-trả-về">HTTP Response (Server trả về)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>HTTP/1.1 200 OK
+</span></span><span style="display:flex;"><span>Content-Type: text/html
+</span></span><span style="display:flex;"><span>Content-Length: 100
+</span></span><span style="display:flex;"><span>(Dòng trống)
+</span></span><span style="display:flex;"><span>&lt;html&gt;...&lt;/html&gt;
+</span></span></code></pre></div><h2 id="2-xây-dựng-simplewebserver">2. Xây dựng SimpleWebServer</h2>
+<p>Chúng ta sẽ viết một Server lắng nghe ở cổng 8080. Khi người dùng truy cập trình duyệt, Server sẽ trả về một trang HTML chào mừng.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.ServerSocket;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.Socket;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Date;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleWebServer</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        ServerSocket server <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ServerSocket(8080);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Web Server listening on port 8080...&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> (Socket socket <span style="color:#f92672">=</span> server.<span style="color:#a6e22e">accept</span>()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 1. Đọc Request (In ra console để xem)</span>
+</span></span><span style="display:flex;"><span>                InputStreamReader isr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InputStreamReader(socket.<span style="color:#a6e22e">getInputStream</span>());
+</span></span><span style="display:flex;"><span>                BufferedReader reader <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BufferedReader(isr);
+</span></span><span style="display:flex;"><span>                String line <span style="color:#f92672">=</span> reader.<span style="color:#a6e22e">readLine</span>(); <span style="color:#75715e">// Chỉ đọc dòng đầu: GET / HTTP/1.1</span>
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Request: &#34;</span> <span style="color:#f92672">+</span> line);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 2. Chuẩn bị nội dung trả về</span>
+</span></span><span style="display:flex;"><span>                String html <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from Java Web Server!&lt;/h1&gt;&lt;p&gt;Time: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">new</span> Date() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 3. Gửi HTTP Response Header</span>
+</span></span><span style="display:flex;"><span>                PrintWriter out <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PrintWriter(socket.<span style="color:#a6e22e">getOutputStream</span>());
+</span></span><span style="display:flex;"><span>                out.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;HTTP/1.1 200 OK&#34;</span>);
+</span></span><span style="display:flex;"><span>                out.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Content-Type: text/html; charset=UTF-8&#34;</span>);
+</span></span><span style="display:flex;"><span>                out.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;Content-Length: &#34;</span> <span style="color:#f92672">+</span> html.<span style="color:#a6e22e">length</span>());
+</span></span><span style="display:flex;"><span>                out.<span style="color:#a6e22e">println</span>(); <span style="color:#75715e">// Dòng trống bắt buộc phân cách Header và Body</span>
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 4. Gửi Body (Nội dung HTML)</span>
+</span></span><span style="display:flex;"><span>                out.<span style="color:#a6e22e">println</span>(html);
+</span></span><span style="display:flex;"><span>                out.<span style="color:#a6e22e">flush</span>(); <span style="color:#75715e">// Đẩy dữ liệu đi ngay lập tức</span>
+</span></span><span style="display:flex;"><span>                
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">catch</span> (IOException e) {
+</span></span><span style="display:flex;"><span>                e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Quy tắc:</strong></p>
-<ul>
-<li><code>await</code> chỉ được dùng trong hàm <code>async</code>.</li>
-<li><code>await</code> sẽ làm hàm tạm dừng cho đến khi Promise trả về kết quả.</li>
-</ul>
-<p>Đây là tiêu chuẩn hiện đại mà mọi Developer JS cần nắm vững để làm việc với API.</p>
+</span></span></code></pre></div><h2 id="3-chạy-thử">3. Chạy thử</h2>
+<ol>
+<li>Chạy chương trình Java trên.</li>
+<li>Mở trình duyệt truy cập <code>http://localhost:8080</code>.</li>
+<li>Bạn sẽ thấy dòng chữ <strong>&ldquo;Hello from Java Web Server!&rdquo;</strong> cùng thời gian hiện tại.</li>
+</ol>
+<h2 id="4-bài-học-rút-ra">4. Bài học rút ra</h2>
+<p>Mọi Web Server phức tạp đều bắt đầu từ nguyên lý này:</p>
+<ol>
+<li>Lắng nghe kết nối TCP (Socket).</li>
+<li>Đọc và phân tích chuỗi văn bản theo quy chuẩn HTTP.</li>
+<li>Xử lý logic (Route, Controller&hellip;).</li>
+<li>Gửi lại chuỗi văn bản phản hồi.</li>
+</ol>
+<p>Hiểu điều này giúp bạn debug lỗi mạng tốt hơn khi làm việc với REST API sau này.</p>
 </div><ul class="pa0">
   
    <li class="list di">
-     <a href="/tags/javascript/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">JavaScript</a>
+     <a href="/tags/java/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Java</a>
    </li>
   
    <li class="list di">
-     <a href="/tags/async/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Async</a>
+     <a href="/tags/http/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">HTTP</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/web-server/" class="link f5 grow br-pill ba ph3 pv2 mb2 dib black sans-serif no-underline">Web Server</a>
    </li>
   
 </ul>

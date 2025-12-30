@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RPC on Blog của Thành</title>
+    <link>http://localhost:1313/tags/rpc/</link>
+    <description>Recent content in RPC on Blog của Thành</description>
+    <generator>Hugo</generator>
+    <language>vi-VN</language>
+    <copyright>© 2025 Bản quyền thuộc về Thành Phạm</copyright>
+    <lastBuildDate>Fri, 27 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/rpc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>8. Java RMI: Gọi phương thức từ xa</title>
+      <link>http://localhost:1313/posts/post-8/</link>
+      <pubDate>Fri, 27 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/post-8/</guid>
+      <description>Tìm hiểu về công nghệ RMI, cách gọi một hàm nằm trên máy tính khác như thể nó đang ở máy mình. Nền tảng của các hệ thống phân tán.</description>
+    </item>
+  </channel>
+</rss>
