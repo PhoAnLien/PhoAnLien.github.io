@@ -9,6 +9,7 @@ details: "Đại học Công nghệ TP.HCM (HUTECH) • Lớp: 22DTHE6 • MSSV:
 social:
   github: "https://github.com/PhoAnLien"
   email: "thanhpham.apr@gmail.com"
+cv_url: "/files/CV_PhamCongThanh.pdf"
 ---
 
 ### **1. GIỚI THIỆU BẢN THÂN**
